@@ -1,4 +1,4 @@
-package com.example.razor.huskid.activity;
+package com.example.razor.huskid.activity.activities;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
