@@ -1,9 +1,78 @@
-<?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.example.razor.huskid.activity.HomeActivity">
+    android:gravity="center_horizontal"
+    android:orientation="vertical"
+    android:padding="16dp">
 
-</android.support.constraint.ConstraintLayout>
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <Button
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:background="@drawable/circular_button"
+            android:drawableTop="@android:drawable/ic_dialog_email"
+            android:paddingTop="20dp"
+            android:text="Contact"
+            android:textColor="#fff" />
+
+        <Button
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:layout_marginLeft="60dp"
+            android:background="@drawable/circular_button"
+            android:drawableTop="@android:drawable/ic_dialog_map"
+            android:paddingTop="20dp"
+            android:text="Map"
+            android:textColor="#fff" />
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginTop="30dp">
+        <Button
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:background="@drawable/circular_button"
+            android:drawableTop="@android:drawable/ic_dialog_alert"
+            android:paddingTop="20dp"
+            android:text="Report"
+            android:textColor="#fff"/>
+        <Button
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:layout_marginLeft="60dp"
+            android:background="@drawable/circular_button"
+            android:drawableTop="@android:drawable/ic_dialog_dialer"
+            android:paddingTop="20dp"
+            android:text="Call"
+            android:textColor="#fff"/>
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginTop="30dp">
+        <Button
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:background="@drawable/circular_button"
+            android:drawableTop="@android:drawable/ic_dialog_info"
+            android:paddingTop="20dp"
+            android:text="Info"
+            android:textColor="#fff" />
+        <Button
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:layout_marginLeft="60dp"
+            android:background="@drawable/circular_button"
+            android:drawableTop="@android:drawable/ic_menu_search"
+            android:paddingTop="20dp"
+            android:text="Search"
+            android:textColor="#fff"/>
+    </LinearLayout>
+</LinearLayout>
