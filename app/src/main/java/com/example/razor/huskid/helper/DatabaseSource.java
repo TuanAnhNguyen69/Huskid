@@ -8,11 +8,11 @@ import android.database.sqlite.SQLiteDatabase;
  */
 
 public class DatabaseSource {
-    SQLiteDatabase db;
-    DatabaseHelper helper;
-
-    public DatabaseSource(Context context){
-        helper = new DatabaseHelper(context);
-        helper.copyDatabase();
-    }
+//    SQLiteDatabase db;
+//    DatabaseHelper helper;
+//
+//    public DatabaseSource(Context context){
+//        helper = new DatabaseHelper(context);
+//        helper.copyDatabase();
+//    }
 }

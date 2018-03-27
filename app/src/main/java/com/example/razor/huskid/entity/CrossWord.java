@@ -15,8 +15,8 @@ public class CrossWord
     char [][] board;
     int [][] horizontalWords;
     int [][] verticalWords;
-    int _n;
-    int _m;
+    int width;
+    int height;
     int horizontalCount, verticalCount;
     static Random random;
     private static ArrayList<String> wordsToInsert;
@@ -28,8 +28,8 @@ public class CrossWord
         board = new char[xDimen][yDimen];
         horizontalWords = new int[xDimen][yDimen];
         verticalWords = new int[xDimen][yDimen];
-        _n = xDimen;
-        _m = yDimen;
+        width = xDimen;
+        height = yDimen;
         random = new Random();
 
         initBoard();
@@ -37,8 +37,8 @@ public class CrossWord
     }
 
     private void initBoard() {
-        for (int rowIndex = 0; rowIndex < _n; rowIndex++) {
-            for (int colIndex = 0; colIndex < _m; colIndex++) {
+        for (int rowIndex = 0; rowIndex < width; rowIndex++) {
+            for (int colIndex = 0; colIndex < height; colIndex++) {
                 board[rowIndex][colIndex] = ' ';
             }
         }
@@ -46,20 +46,17 @@ public class CrossWord
 
     public String toString() {
      String result = "";
-        for (int rowIndex = 0; rowIndex < _n; rowIndex++) {
-            for (int colIndex = 0; colIndex < _m; colIndex++)
+        for (int rowIndex = 0; rowIndex < width; rowIndex++) {
+            for (int colIndex = 0; colIndex < height; colIndex++)
             {
                 result += letters.contains(Character.toString(board[rowIndex][colIndex])) ? board[rowIndex][colIndex] : ' ';
-            }
-            if (rowIndex < _n - 1) {
-                result += '\n';
             }
         }
         return result;
     }
 
     boolean isValidPosition(int x , int y) {
-        return x >= 0 && y >= 0 && x < _n && y < _m;
+        return x >= 0 && y >= 0 && x < width && y < height;
     }
 
     int canBePlaced(String word, int x, int y, int dir) {
@@ -157,8 +154,8 @@ public class CrossWord
     {
         int max = 0;
         ArrayList<Triplet<Integer, Integer, Integer>> positions = new ArrayList<>();
-        for (int x = 0; x < _n; x++) {
-            for (int y = 0; y < _m; y++)
+        for (int x = 0; x < width; x++) {
+            for (int y = 0; y < height; y++)
             {
                 for (int i = 0; i < directionX.length; i++)
                 {
@@ -196,9 +193,9 @@ public class CrossWord
 
     public void reset()
     {
-        for (int i = 0; i < _n; i++)
+        for (int i = 0; i < width; i++)
         {
-            for (int j = 0; j < _m; j++)
+            for (int j = 0; j < height; j++)
             {
                 board[i][j] = ' ';
                 verticalWords[i][j] = 0;
@@ -211,7 +208,7 @@ public class CrossWord
     public void addWords(ArrayList<String> words)
     {
         wordsToInsert = words;
-        _bestSol = _n*_m;
+        _bestSol = width * height;
         gen(0);
         board = tempBoard;
     }
@@ -219,9 +216,9 @@ public class CrossWord
     int freeSpaces()
     {
         int count = 0;
-        for (int i = 0; i < _n; i++)
+        for (int i = 0; i < width; i++)
         {
-            for (int j = 0; j < _m; j++)
+            for (int j = 0; j < height; j++)
             {
                 if (board[i][j] == ' ' || board[i][j] == '*')
                 count++;
@@ -299,6 +296,62 @@ public class CrossWord
 
         }
         return false;
+    }
+
+    public char[][] getBoard() {
+        return board;
+    }
+
+    public void setBoard(char[][] board) {
+        this.board = board;
+    }
+
+    public int[][] getHorizontalWords() {
+        return horizontalWords;
+    }
+
+    public void setHorizontalWords(int[][] horizontalWords) {
+        this.horizontalWords = horizontalWords;
+    }
+
+    public int[][] getVerticalWords() {
+        return verticalWords;
+    }
+
+    public void setVerticalWords(int[][] verticalWords) {
+        this.verticalWords = verticalWords;
+    }
+
+    public int getWidth() {
+        return width;
+    }
+
+    public void setWidth(int width) {
+        this.width = width;
+    }
+
+    public int getHeight() {
+        return height;
+    }
+
+    public void setHeight(int height) {
+        this.height = height;
+    }
+
+    public int getHorizontalCount() {
+        return horizontalCount;
+    }
+
+    public void setHorizontalCount(int horizontalCount) {
+        this.horizontalCount = horizontalCount;
+    }
+
+    public int getVerticalCount() {
+        return verticalCount;
+    }
+
+    public void setVerticalCount(int verticalCount) {
+        this.verticalCount = verticalCount;
     }
 
     class Triplet<T, U, V> {

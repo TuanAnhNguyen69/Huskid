@@ -28820,7 +28820,7 @@ nullipore
 nullity
 numb
 numbat
-number
+horizontalNumber
 numberless
 numbfish
 numbing
@@ -39537,7 +39537,7 @@ starlike
 starling
 starred
 starry
-start
+show
 starter
 startle
 startling
@@ -46344,7 +46344,7 @@ words
 wordsmith
 wordy
 wore
-work
+word
 workable
 workaday
 workbag
