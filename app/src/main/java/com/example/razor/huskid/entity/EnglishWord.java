@@ -33,8 +33,8 @@ public class EnglishWord {
     @Column
     private String audio;
 
-//    @Column
-//    private boolean seen;
+    @Column
+    private boolean seen;
 
     public long getId() {
         return id;
@@ -89,11 +89,11 @@ public class EnglishWord {
         return this;
     }
 
-//    public boolean isSeen() {
-//        return seen;
-//    }
-//
-//    public void setSeen(boolean seen) {
-//        this.seen = seen;
-//    }
+    public boolean isSeen() {
+        return seen;
+    }
+
+    public void setSeen(boolean seen) {
+        this.seen = seen;
+    }
 }
