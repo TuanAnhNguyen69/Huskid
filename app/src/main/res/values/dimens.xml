@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="toolbar_margin">72dp</dimen>
+    <dimen name="banner_height">180dp</dimen>
+    <dimen name="banner_indicator_height">48dp</dimen>
+
+    <dimen name="shop_detail_info_height">55dp</dimen>
+
+    <dimen name="sliding_slop">32dp</dimen>
+    <dimen name="sliding_overlay_blur_size">4dp</dimen>
+    <dimen name="sliding_card_padding">12dp</dimen>
+    <dimen name="text_margin">16dp</dimen>
+
+    <dimen name="history_item_margin_top">4dp</dimen>
+    <dimen name="history_item_margin_bottom">4dp</dimen>
+    <dimen name="history_item_margin_start">4dp</dimen>
+    <dimen name="history_item_margin_end">4dp</dimen>
+    <dimen name="history_item_action_font_size">18sp</dimen>
+    <dimen name="history_item_time_font_size">18sp</dimen>
+    <dimen name="history_item_target_font_size">18sp</dimen>
+    <dimen name="history_content_font_size">15sp</dimen>
+    <dimen name="history_delete_layout_width">30dp</dimen>
+    <dimen name="history_delete_button_size">26dp</dimen>
+    <dimen name="navigation_bar_height">48dp</dimen>
+
+    <dimen name="plus_minus_add_to_cart_size">30dp</dimen>
+    <dimen name="add_to_cart_dialog_width">320dp</dimen>
+    <dimen name="add_to_cart_dialog_food_name_size">20sp</dimen>
+    <dimen name="add_to_cart_dialog_food_price">20sp</dimen>
+    <dimen name="add_to_cart_total_money_size">20sp</dimen>
+    <dimen name="add_to_cart_add_to_cart_button_height">56dp</dimen>
+
+</resources>

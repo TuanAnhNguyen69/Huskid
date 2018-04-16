@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/colorBackground">
+
+    <RelativeLayout
+        android:id="@+id/item_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <ImageView
+            android:id="@+id/map_image"
+            android:layout_width="wrap_content"
+            android:layout_height="150dp"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentTop="true"
+            android:layout_alignStart="@+id/gradient"
+            android:scaleType="centerCrop"
+            app:srcCompat="@drawable/staticmap" />
+
+        <RelativeLayout
+            android:id="@+id/gradient"
+            android:layout_width="250dp"
+            android:layout_height="150dp"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentTop="true"
+            android:background="@drawable/white_gradient">
+
+        </RelativeLayout>
+
+        <TextView
+            android:id="@+id/action"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/history_item_margin_start"
+            android:layout_marginTop="@dimen/history_item_margin_top"
+            android:text="Check in"
+            android:textSize="@dimen/history_item_action_font_size"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/time"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBottom="@id/check_in_icon"
+            android:layout_alignEnd="@id/shop_address"
+            android:layout_alignParentBottom="false"
+            android:layout_alignTop="@id/check_in_icon"
+            android:layout_marginStart="4dp"
+            android:layout_toEndOf="@id/check_in_icon"
+            android:gravity="center_vertical"
+            android:text="12h"
+            android:textAlignment="gravity"
+            android:textSize="@dimen/history_item_time_font_size" />
+
+        <ImageView
+            android:id="@+id/check_in_icon"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:layout_alignBottom="@+id/map_image"
+            android:layout_alignParentBottom="false"
+            android:layout_alignStart="@id/action"
+            android:layout_margin="4dp"
+            android:src="@drawable/ic_check_in" />
+
+        <TextView
+            android:id="@+id/shop_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_alignTop="@id/action"
+            android:layout_marginEnd="@dimen/history_item_margin_end"
+            android:layout_marginStart="4dp"
+            android:layout_toEndOf="@id/action"
+            android:ellipsize="marquee"
+            android:singleLine="true"
+            android:text="bun ba ba"
+            android:textColor="@color/colorFoodTiny"
+            android:textSize="@dimen/history_item_target_font_size"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/shop_address"
+            android:layout_width="220dp"
+            android:layout_height="wrap_content"
+            android:layout_alignStart="@+id/action"
+            android:layout_below="@+id/action"
+            android:ellipsize="marquee"
+            android:singleLine="true"
+            android:text="123123123" />
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="@dimen/history_delete_layout_width"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentTop="true">
+
+        <ImageView
+            android:id="@+id/delete"
+            android:layout_width="@dimen/history_delete_button_size"
+            android:layout_height="@dimen/history_delete_button_size"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentTop="true"
+            android:layout_margin="4dp"
+            android:src="@drawable/remove" />
+    </RelativeLayout>
+
+</RelativeLayout>
