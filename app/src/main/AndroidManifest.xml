@@ -12,9 +12,6 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-<<<<<<< HEAD
-        <activity android:name=".activity.HomeActivity">
-=======
 
         <activity android:name=".activity.HomeActivity"/>
 
@@ -23,18 +20,12 @@
         </activity>
 
         <activity android:name=".activity.GameActivity" >
->>>>>>> da6b98b704dcaef3b9ee6abbe041837f7c88fcea
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-<<<<<<< HEAD
-        <activity android:name=".activity.SplashActivity" />
-        <activity android:name=".activity.GameActivity" />
-=======
->>>>>>> da6b98b704dcaef3b9ee6abbe041837f7c88fcea
         <activity android:name=".activity.LearnActivity"></activity>
     </application>
 
