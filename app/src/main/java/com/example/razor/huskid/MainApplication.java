@@ -2,6 +2,9 @@ package com.example.razor.huskid;
 
 import android.app.Application;
 
+import com.example.razor.huskid.database.AppDatabase;
+import com.raizlabs.android.dbflow.config.DatabaseConfig;
+import com.raizlabs.android.dbflow.config.FlowConfig;
 import com.raizlabs.android.dbflow.config.FlowManager;
 
 /**
@@ -11,6 +14,8 @@ import com.raizlabs.android.dbflow.config.FlowManager;
 public class MainApplication extends Application {
     @Override
     public void onCreate() {
+        getDatabasePath(AppDatabase.NAME).delete();
+        //FlowManager.getDatabase(AppDatabase.NAME).reset(this);
         FlowManager.init(this);
         super.onCreate();
     }

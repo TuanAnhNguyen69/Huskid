@@ -12,7 +12,6 @@ import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.GridView;
 import android.widget.ImageButton;
@@ -28,6 +27,7 @@ import com.example.razor.huskid.entity.CrossWord;
 import com.example.razor.huskid.entity.EnglishWord;
 import com.example.razor.huskid.entity.Tile;
 import com.example.razor.huskid.helper.DatabaseHelper;
+import com.example.razor.huskid.helper.SoundPlayer;
 
 import java.util.ArrayList;
 import java.util.Random;
@@ -58,8 +58,8 @@ public class CrossWordFragment extends Fragment {
     @BindView(R.id.suggest)
     ConstraintLayout suggestLayout;
 
-    @BindView(R.id.suggestQuestion)
-    TextView suggestQuestion;
+    @BindView(R.id.meanning)
+    TextView meanning;
 
     @BindView(R.id.sugggestImage)
     ImageView suggestImage;
@@ -72,6 +72,23 @@ public class CrossWordFragment extends Fragment {
 
     @BindView(R.id.exit)
     ImageView exitSuggest;
+
+
+    @BindView(R.id.play_sound)
+    ImageView playSound;
+
+
+    @BindView(R.id.wrong)
+    ImageView wrong;
+
+
+    @BindView(R.id.correct)
+    ImageView correct;
+
+
+    @BindView(R.id.question)
+    ImageView question;
+
 
     @BindView(R.id.reset)
     ImageButton reset;
