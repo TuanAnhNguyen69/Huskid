@@ -1,7 +1,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:gravity="center_horizontal"
+    android:gravity="center"
     android:orientation="vertical"
     android:padding="16dp">
 
@@ -17,7 +17,9 @@
             android:drawableTop="@android:drawable/ic_dialog_email"
             android:paddingTop="20dp"
             android:text="Contact"
-            android:textColor="#fff" />
+            android:textColor="#fff"
+            android:shadowColor="#808080"
+            android:clickable="true"/>
 
         <Button
             android:layout_width="100dp"
@@ -27,7 +29,9 @@
             android:drawableTop="@android:drawable/ic_dialog_map"
             android:paddingTop="20dp"
             android:text="Map"
-            android:textColor="#fff" />
+            android:textColor="#fff"
+            android:shadowColor="#808080"
+            android:clickable="true"/>
     </LinearLayout>
     <LinearLayout
         android:layout_width="wrap_content"
@@ -41,7 +45,9 @@
             android:drawableTop="@android:drawable/ic_dialog_alert"
             android:paddingTop="20dp"
             android:text="Report"
-            android:textColor="#fff"/>
+            android:textColor="#fff"
+            android:shadowColor="#808080"
+            android:clickable="true"/>
         <Button
             android:layout_width="100dp"
             android:layout_height="100dp"
@@ -50,7 +56,9 @@
             android:drawableTop="@android:drawable/ic_dialog_dialer"
             android:paddingTop="20dp"
             android:text="Call"
-            android:textColor="#fff"/>
+            android:textColor="#fff"
+            android:shadowColor="#808080"
+            android:clickable="true"/>
     </LinearLayout>
     <LinearLayout
         android:layout_width="wrap_content"
@@ -64,7 +72,9 @@
             android:drawableTop="@android:drawable/ic_dialog_info"
             android:paddingTop="20dp"
             android:text="Info"
-            android:textColor="#fff" />
+            android:textColor="#fff"
+            android:shadowColor="#808080"
+            android:clickable="true"/>
         <Button
             android:layout_width="100dp"
             android:layout_height="100dp"
@@ -73,6 +83,8 @@
             android:drawableTop="@android:drawable/ic_menu_search"
             android:paddingTop="20dp"
             android:text="Search"
-            android:textColor="#fff"/>
+            android:textColor="#fff"
+            android:shadowColor="#808080"
+            android:clickable="true"/>
     </LinearLayout>
 </LinearLayout>
