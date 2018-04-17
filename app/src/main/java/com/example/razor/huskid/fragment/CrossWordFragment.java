@@ -12,7 +12,6 @@ import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.GridView;
 import android.widget.ImageButton;
@@ -28,6 +27,7 @@ import com.example.razor.huskid.entity.CrossWord;
 import com.example.razor.huskid.entity.EnglishWord;
 import com.example.razor.huskid.entity.Tile;
 import com.example.razor.huskid.helper.DatabaseHelper;
+import com.example.razor.huskid.helper.SoundPlayer;
 
 import java.util.ArrayList;
 import java.util.Random;
@@ -58,8 +58,8 @@ public class CrossWordFragment extends Fragment {
     @BindView(R.id.suggest)
     ConstraintLayout suggestLayout;
 
-    @BindView(R.id.suggestQuestion)
-    TextView suggestQuestion;
+    @BindView(R.id.meanning)
+    TextView meanning;
 
     @BindView(R.id.sugggestImage)
     ImageView suggestImage;
@@ -72,6 +72,23 @@ public class CrossWordFragment extends Fragment {
 
     @BindView(R.id.exit)
     ImageView exitSuggest;
+
+
+    @BindView(R.id.play_sound)
+    ImageView playSound;
+
+
+    @BindView(R.id.wrong)
+    ImageView wrong;
+
+
+    @BindView(R.id.correct)
+    ImageView correct;
+
+
+    @BindView(R.id.question)
+    ImageView question;
+
 
     @BindView(R.id.reset)
     ImageButton reset;
@@ -102,7 +119,7 @@ public class CrossWordFragment extends Fragment {
         order = new ArrayList<>();
         tiles = new ArrayList<>();
         added = new ArrayList<>();
-        topic = "the body";
+        topic = "body";
         currentWordLength = 0;
         currentSelectWordTileIndex = new ArrayList<>();
     }
@@ -160,6 +177,25 @@ public class CrossWordFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 suggestLayout.setVisibility(View.GONE);
+                SoundPlayer.getInstance().stopMedia();
+                meanning.setVisibility(View.GONE);
+                playSound.setVisibility(View.GONE);
+                question.setVisibility(View.VISIBLE);
+                resetInput();
+            }
+        });
+
+        suggestLayout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //Do nothing
+            }
+        });
+
+        playSound.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                SoundPlayer.getInstance().playMedia(currentSelectWord.getAudio());
             }
         });
     }
@@ -232,7 +268,7 @@ public class CrossWordFragment extends Fragment {
 
     private void checkResult() {
         if (currentInputWord.toString().equalsIgnoreCase(currentSelectWord.getWord())) {
-            showWord();
+            showCorrect();
         } else {
             showError();
         }
@@ -241,14 +277,37 @@ public class CrossWordFragment extends Fragment {
         currentInputWord = new StringBuilder();
     }
 
-    private void showError() {
-        wordInput.setBackgroundColor(Color.RED);
+    private void showCorrect() {
+        wordInput.setBackgroundColor(Color.GREEN);
+        correct.setVisibility(View.VISIBLE);
+        meanning.setVisibility(View.VISIBLE);
+        meanning.setText(currentSelectWord.getMean());
+        SoundPlayer.getInstance().playMedia(currentSelectWord.getAudio());
+        playSound.setVisibility(View.VISIBLE);
+        question.setVisibility(View.GONE);
 
         Handler handler = new Handler();
         handler.postDelayed(new Runnable() {
             @Override
             public void run() {
                 wordInput.setBackgroundColor(Color.WHITE);
+                correct.setVisibility(View.INVISIBLE);
+                showWord();
+
+            }
+        }, 500);
+    }
+
+    private void showError() {
+        wordInput.setBackgroundColor(Color.RED);
+        wrong.setVisibility(View.VISIBLE);
+
+        Handler handler = new Handler();
+        handler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                wordInput.setBackgroundColor(Color.WHITE);
+                wrong.setVisibility(View.INVISIBLE);
             }
         }, 500);
     }
@@ -382,16 +441,7 @@ public class CrossWordFragment extends Fragment {
             tiles.get(integer).setShow(true);
         }
 
-        wordInput.setBackgroundColor(Color.GREEN);
         tileAdapter.notifyDataSetChanged();
-        suggestLayout.setVisibility(View.GONE);
-        Handler handler = new Handler();
-        handler.postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                resetInput();
-            }
-        }, 500);
     }
 
     private void genCrossWord() {

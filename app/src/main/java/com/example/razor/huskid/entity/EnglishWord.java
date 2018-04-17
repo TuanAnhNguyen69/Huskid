@@ -33,6 +33,9 @@ public class EnglishWord {
     @Column
     private String audio;
 
+    @Column
+    private boolean seen;
+
     public long getId() {
         return id;
     }
@@ -84,5 +87,13 @@ public class EnglishWord {
     public EnglishWord setAudio(String audio) {
         this.audio = audio;
         return this;
+    }
+
+    public boolean isSeen() {
+        return seen;
+    }
+
+    public void setSeen(boolean seen) {
+        this.seen = seen;
     }
 }
