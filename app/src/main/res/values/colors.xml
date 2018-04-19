@@ -7,6 +7,7 @@
     <color name="colorAccent">#c7736a</color>
     <color name="colorWhite">#FFFFFF</color>
     <color name="colorBlue">#1098c5</color>
+    <color name="colorGreen">#33CC33</color>
     <color name="colorRed">#da2411</color>
     <color name="colorLightBlack">#863c41</color>
     <color name="colorLightGray">#b1acac</color>
@@ -16,11 +17,11 @@
     <color name="colorCheckIn">#ee6d62</color>
     <color name="colorPlaceHolder">#dddddd</color>
     <color name="transparent">#00000000</color>
-
     <color name="colorIntro">#e97274</color>
     <color name="colorGray">#808080</color>
     <color name="colorInActiveIndicator">#F29D9E</color>
     <color name="colorActiveIndicator">#E97274</color>
     <color name="colorBlack">#000000</color>
     <color name="colorBackground">#fafafa</color>
+    <color name="colorPink">#FF0066</color>
 </resources>

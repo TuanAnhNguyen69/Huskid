@@ -1,90 +1,129 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/colorGreen"
     android:gravity="center"
     android:orientation="vertical"
-    android:padding="16dp">
+    android:padding="16dp"
+    android:id="@+id/activity_home_layout">
 
     <LinearLayout
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_height="120dp"
+        android:layout_marginTop="90dp"
         android:orientation="horizontal">
 
         <Button
+            android:id="@+id/btnPeople"
             android:layout_width="100dp"
             android:layout_height="100dp"
+            android:layout_gravity="center"
+            android:layout_marginLeft="5dp"
             android:background="@drawable/circular_button"
-            android:drawableTop="@android:drawable/ic_dialog_email"
-            android:paddingTop="20dp"
-            android:text="Contact"
-            android:textColor="#fff"
-            android:shadowColor="#808080"
-            android:clickable="true"/>
-
-        <Button
-            android:layout_width="100dp"
-            android:layout_height="100dp"
-            android:layout_marginLeft="60dp"
-            android:background="@drawable/circular_button"
-            android:drawableTop="@android:drawable/ic_dialog_map"
-            android:paddingTop="20dp"
-            android:text="Map"
-            android:textColor="#fff"
-            android:shadowColor="#808080"
-            android:clickable="true"/>
-    </LinearLayout>
-    <LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:layout_marginTop="30dp">
-        <Button
-            android:layout_width="100dp"
-            android:layout_height="100dp"
-            android:background="@drawable/circular_button"
-            android:drawableTop="@android:drawable/ic_dialog_alert"
-            android:paddingTop="20dp"
-            android:text="Report"
-            android:textColor="#fff"
-            android:shadowColor="#808080"
-            android:clickable="true"/>
-        <Button
-            android:layout_width="100dp"
-            android:layout_height="100dp"
-            android:layout_marginLeft="60dp"
-            android:background="@drawable/circular_button"
-            android:drawableTop="@android:drawable/ic_dialog_dialer"
-            android:paddingTop="20dp"
-            android:text="Call"
-            android:textColor="#fff"
-            android:shadowColor="#808080"
-            android:clickable="true"/>
-    </LinearLayout>
-    <LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:layout_marginTop="30dp">
-        <Button
-            android:layout_width="100dp"
-            android:layout_height="100dp"
-            android:background="@drawable/circular_button"
+            android:clickable="true"
             android:drawableTop="@android:drawable/ic_dialog_info"
             android:paddingTop="20dp"
-            android:text="Info"
-            android:textColor="#fff"
             android:shadowColor="#808080"
-            android:clickable="true"/>
+            android:text="People"
+            android:textStyle="bold"
+            android:textColor="#fff"
+            android:onClick="onButtonClick"/>
+
         <Button
+            android:id="@+id/btnAnimal"
             android:layout_width="100dp"
             android:layout_height="100dp"
+            android:layout_gravity="center"
             android:layout_marginLeft="60dp"
+            android:layout_marginRight="5dp"
             android:background="@drawable/circular_button"
-            android:drawableTop="@android:drawable/ic_menu_search"
+            android:clickable="true"
+            android:drawableTop="@android:drawable/ic_dialog_info"
             android:paddingTop="20dp"
-            android:text="Search"
-            android:textColor="#fff"
             android:shadowColor="#808080"
-            android:clickable="true"/>
+            android:text="Animal"
+            android:textStyle="bold"
+            android:textColor="#fff"
+            android:onClick="onButtonClick"/>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="120dp"
+        android:layout_marginTop="30dp"
+        android:orientation="horizontal">
+
+        <Button
+            android:id="@+id/btnPlant"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:layout_gravity="center"
+            android:layout_marginLeft="5dp"
+            android:background="@drawable/circular_button"
+            android:clickable="true"
+            android:drawableTop="@android:drawable/ic_dialog_info"
+            android:paddingTop="20dp"
+            android:shadowColor="#808080"
+            android:text="Plant"
+            android:textStyle="bold"
+            android:textColor="#fff"
+            android:onClick="onButtonClick"/>
+
+        <Button
+            android:id="@+id/btnObject"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:layout_gravity="center"
+            android:layout_marginLeft="60dp"
+            android:layout_marginRight="5dp"
+            android:background="@drawable/circular_button"
+            android:clickable="true"
+            android:drawableTop="@android:drawable/ic_dialog_info"
+            android:paddingTop="20dp"
+            android:shadowColor="#808080"
+            android:text="Object"
+            android:textStyle="bold"
+            android:textColor="#fff"
+            android:onClick="onButtonClick"/>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="120dp"
+        android:layout_marginTop="30dp"
+        android:orientation="horizontal">
+
+        <Button
+            android:id="@+id/btnFruit"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:layout_gravity="center"
+            android:layout_marginLeft="5dp"
+            android:background="@drawable/circular_button"
+            android:clickable="true"
+            android:drawableTop="@android:drawable/ic_dialog_info"
+            android:paddingTop="20dp"
+            android:shadowColor="#808080"
+            android:text="Fruit"
+            android:textStyle="bold"
+            android:textColor="#fff"
+            android:onClick="onButtonClick"/>
+
+        <Button
+            android:id="@+id/btnFood"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:layout_gravity="center"
+            android:layout_marginLeft="60dp"
+            android:layout_marginRight="5dp"
+            android:background="@drawable/circular_button"
+            android:clickable="true"
+            android:drawableTop="@android:drawable/ic_dialog_info"
+            android:paddingTop="20dp"
+            android:shadowColor="#808080"
+            android:text="Food"
+            android:textStyle="bold"
+            android:textColor="#fff"
+            android:onClick="onButtonClick"/>
     </LinearLayout>
 </LinearLayout>
