@@ -5,22 +5,48 @@ import android.os.Bundle;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.LinearLayout;
+import android.widget.ListView;
 import android.widget.PopupWindow;
+import android.widget.RelativeLayout;
 
 import com.example.razor.huskid.R;
+import com.example.razor.huskid.adapter.TopicsAdapter;
+import com.example.razor.huskid.entity.Topic;
+import com.example.razor.huskid.helper.DatabaseHelper;
+
+import butterknife.BindView;
+import butterknife.ButterKnife;
 
 public class HomeActivity extends AppCompatActivity {
+
+    @BindView(R.id.topicList)
+    ListView topicListView;
+
+    private TopicsAdapter topicsAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
+        ButterKnife.bind(this);
+        initTopicList();
     }
 
-    public void onButtonClick(View view)
-    {
-        LinearLayout mainLayout = findViewById(R.id.activity_home_layout);
+    private void initTopicList() {
+        topicsAdapter = new TopicsAdapter(this, DatabaseHelper.getInstance().getAllTopics());
+        topicListView.setAdapter(topicsAdapter);
+        topicListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                onButtonClick(view, topicsAdapter.getTopics().get(position));
+            }
+        });
+    }
+
+    public void onButtonClick(View view, Topic topic) {
+        RelativeLayout mainLayout = findViewById(R.id.activity_home_layout);
         LayoutInflater inflater = (LayoutInflater) getSystemService(LAYOUT_INFLATER_SERVICE);
         View popupView = inflater.inflate(R.layout.popup_window, null);
 
@@ -29,6 +55,8 @@ public class HomeActivity extends AppCompatActivity {
         boolean focusable = true;
         final PopupWindow popupWindow = new PopupWindow(popupView, width, height, focusable);
         popupWindow.setAnimationStyle(R.style.PopupAnimation);
-        popupWindow.showAtLocation(mainLayout, Gravity.CENTER, 0, 0);
+        popupWindow.showAtLocation(mainLayout, Gravity.CENTER, 20, 0);
     }
+
+
 }

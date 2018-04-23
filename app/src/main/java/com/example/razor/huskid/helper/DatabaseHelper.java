@@ -17,7 +17,7 @@ public class DatabaseHelper {
 
     public static DatabaseHelper databaseHelper;
 
-    public static synchronized DatabaseHelper getInstance(Context context) {
+    public static synchronized DatabaseHelper getInstance() {
         // Use the application context, which will ensure that you
         // don't accidentally leak an Activity's context.
         // See this article for more information: http://bit.ly/6LRzfx

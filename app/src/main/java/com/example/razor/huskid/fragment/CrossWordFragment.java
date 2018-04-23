@@ -486,7 +486,7 @@ public class CrossWordFragment extends Fragment {
     }
 
     private void loadWord() {
-        words = (ArrayList<EnglishWord>) DatabaseHelper.getInstance(getContext()).getTopicWords(topic);
+        words = (ArrayList<EnglishWord>) DatabaseHelper.getInstance().getTopicWords(topic);
     }
 
     private void genOrder() {

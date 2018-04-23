@@ -3,109 +3,63 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@color/colorBackground">
+    android:background="@android:color/transparent">
 
-    <RelativeLayout
-        android:id="@+id/item_layout"
+    <android.support.v7.widget.CardView
+        android:id="@+id/back_ground"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-
-        <ImageView
-            android:id="@+id/map_image"
-            android:layout_width="wrap_content"
-            android:layout_height="150dp"
-            android:layout_alignParentEnd="true"
-            android:layout_alignParentTop="true"
-            android:layout_alignStart="@+id/gradient"
-            android:scaleType="centerCrop"
-            app:srcCompat="@drawable/staticmap" />
-
-        <RelativeLayout
-            android:id="@+id/gradient"
-            android:layout_width="250dp"
-            android:layout_height="150dp"
-            android:layout_alignParentEnd="true"
-            android:layout_alignParentTop="true"
-            android:background="@drawable/white_gradient">
-
-        </RelativeLayout>
-
-        <TextView
-            android:id="@+id/action"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/history_item_margin_start"
-            android:layout_marginTop="@dimen/history_item_margin_top"
-            android:text="Check in"
-            android:textSize="@dimen/history_item_action_font_size"
-            android:textStyle="bold" />
-
-        <TextView
-            android:id="@+id/time"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignBottom="@id/check_in_icon"
-            android:layout_alignEnd="@id/shop_address"
-            android:layout_alignParentBottom="false"
-            android:layout_alignTop="@id/check_in_icon"
-            android:layout_marginStart="4dp"
-            android:layout_toEndOf="@id/check_in_icon"
-            android:gravity="center_vertical"
-            android:text="12h"
-            android:textAlignment="gravity"
-            android:textSize="@dimen/history_item_time_font_size" />
-
-        <ImageView
-            android:id="@+id/check_in_icon"
-            android:layout_width="24dp"
-            android:layout_height="24dp"
-            android:layout_alignBottom="@+id/map_image"
-            android:layout_alignParentBottom="false"
-            android:layout_alignStart="@id/action"
-            android:layout_margin="4dp"
-            android:src="@drawable/ic_check_in" />
-
-        <TextView
-            android:id="@+id/shop_name"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentEnd="true"
-            android:layout_alignTop="@id/action"
-            android:layout_marginEnd="@dimen/history_item_margin_end"
-            android:layout_marginStart="4dp"
-            android:layout_toEndOf="@id/action"
-            android:ellipsize="marquee"
-            android:singleLine="true"
-            android:text="bun ba ba"
-            android:textColor="@color/colorFoodTiny"
-            android:textSize="@dimen/history_item_target_font_size"
-            android:textStyle="bold" />
-
-        <TextView
-            android:id="@+id/shop_address"
-            android:layout_width="220dp"
-            android:layout_height="wrap_content"
-            android:layout_alignStart="@+id/action"
-            android:layout_below="@+id/action"
-            android:ellipsize="marquee"
-            android:singleLine="true"
-            android:text="123123123" />
-    </RelativeLayout>
-
-    <RelativeLayout
-        android:layout_width="@dimen/history_delete_layout_width"
         android:layout_height="wrap_content"
-        android:layout_alignParentEnd="true"
-        android:layout_alignParentTop="true">
+        android:background="@android:color/transparent"
+        app:cardBackgroundColor="@color/colorFoodTiny"
+        app:cardCornerRadius="15dp"
+        app:cardPreventCornerOverlap="?android:attr/windowOverscan">
 
-        <ImageView
-            android:id="@+id/delete"
-            android:layout_width="@dimen/history_delete_button_size"
-            android:layout_height="@dimen/history_delete_button_size"
-            android:layout_alignParentEnd="true"
-            android:layout_alignParentTop="true"
-            android:layout_margin="4dp"
-            android:src="@drawable/remove" />
-    </RelativeLayout>
+        <android.support.constraint.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@android:color/transparent">
 
+            <ProgressBar
+                android:id="@+id/progress"
+                style="?android:attr/progressBarStyleHorizontal"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:background="@android:color/transparent"
+                android:visibility="invisible"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent" />
+
+            <TextView
+                android:id="@+id/topic"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="8dp"
+                android:layout_marginEnd="8dp"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="8dp"
+                android:text="Body"
+                android:textColor="@color/colorBackground"
+                android:textSize="24sp"
+                android:textStyle="bold"
+                app:layout_constraintBottom_toTopOf="@+id/progress"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/topic_image" />
+
+            <de.hdodenhof.circleimageview.CircleImageView
+                android:id="@+id/topic_image"
+                android:layout_width="150dp"
+                android:layout_height="150dp"
+                android:layout_marginEnd="8dp"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="8dp"
+                android:src="@mipmap/ic_launcher_round"
+                app:border_width="2dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+        </android.support.constraint.ConstraintLayout>
+
+    </android.support.v7.widget.CardView>
 </RelativeLayout>
