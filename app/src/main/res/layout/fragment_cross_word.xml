@@ -23,22 +23,100 @@
         android:layout_height="0dp"
         android:background="@color/colorBackground"
         android:visibility="visible"
-        app:layout_constraintBottom_toBottomOf="@+id/board"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.0">
 
+        <android.support.constraint.ConstraintLayout
+            android:id="@+id/input"
+            android:layout_width="wrap_content"
+            android:layout_height="0dp"
+            android:layout_marginBottom="8dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
+            android:visibility="visible"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/cardView">
+
+            <ImageButton
+                android:id="@+id/reset"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="8dp"
+                android:layout_marginEnd="8dp"
+                android:layout_marginStart="8dp"
+                android:src="@android:drawable/ic_delete"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="@+id/guideline" />
+
+            <android.support.constraint.Guideline
+                android:id="@+id/guideline"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintGuide_percent="0.5"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <ImageButton
+                android:id="@+id/delete"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="8dp"
+                android:layout_marginStart="8dp"
+                android:src="@drawable/banned"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toStartOf="@+id/guideline"
+                app:layout_constraintStart_toStartOf="parent" />
+
+            <com.chaos.view.PinView
+                android:id="@+id/wordInput"
+                style="@style/PinWidget.PinView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="8dp"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="8dp"
+                android:cursorVisible="false"
+                android:inputType="text"
+                android:textSize="18sp"
+                app:cursorWidth="2dp"
+                app:itemCount="0"
+                app:itemHeight="48dp"
+                app:itemRadius="4dp"
+                app:itemSpacing="5dp"
+                app:itemWidth="36dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:lineWidth="2dp"
+                app:viewType="rectangle" />
+
+            <GridView
+                android:id="@+id/alphabet"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:numColumns="7"
+                app:layout_constraintTop_toBottomOf="@+id/wordInput" />
+
+        </android.support.constraint.ConstraintLayout>
+
         <android.support.v7.widget.CardView
             android:id="@+id/cardView"
             android:layout_width="0dp"
-            android:layout_height="0dp"
+            android:layout_height="wrap_content"
             android:background="@android:color/holo_purple"
             app:cardBackgroundColor="@android:color/holo_purple"
             app:cardCornerRadius="10dp"
             app:cardElevation="2dp"
-            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent">
@@ -131,60 +209,4 @@
 
     </android.support.constraint.ConstraintLayout>
 
-    <android.support.constraint.ConstraintLayout
-        android:id="@+id/input"
-        android:layout_width="wrap_content"
-        android:layout_height="0dp"
-        android:layout_marginBottom="8dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
-        android:visibility="visible"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/board">
-
-        <ImageButton
-            android:id="@+id/reset"
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            android:src="@android:drawable/ic_delete"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/alphabet" />
-
-        <com.chaos.view.PinView
-            android:id="@+id/wordInput"
-            style="@style/PinWidget.PinView"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="8dp"
-            android:layout_marginStart="8dp"
-            android:layout_marginTop="8dp"
-            android:cursorVisible="false"
-            android:inputType="text"
-            android:textSize="18sp"
-            app:cursorWidth="2dp"
-            app:itemCount="0"
-            app:itemHeight="48dp"
-            app:itemRadius="4dp"
-            app:itemSpacing="5dp"
-            app:itemWidth="36dp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:lineWidth="2dp"
-            app:viewType="rectangle" />
-
-        <GridView
-            android:id="@+id/alphabet"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:numColumns="9"
-            app:layout_constraintTop_toBottomOf="@+id/wordInput" />
-
-    </android.support.constraint.ConstraintLayout>
 </android.support.constraint.ConstraintLayout>

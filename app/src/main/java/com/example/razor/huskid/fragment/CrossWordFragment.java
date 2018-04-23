@@ -35,6 +35,8 @@ import java.util.Random;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
+import static android.view.View.GONE;
+
 /**
  * A simple {@link Fragment} subclass.
  * Activities that contain this fragment must implement the
@@ -92,6 +94,9 @@ public class CrossWordFragment extends Fragment {
 
     @BindView(R.id.reset)
     ImageButton reset;
+
+    @BindView(R.id.delete)
+    ImageButton delete;
 
     private int mParam1;
     private int mParam2;
@@ -171,15 +176,15 @@ public class CrossWordFragment extends Fragment {
     }
 
     private void initSuggest() {
-        suggestLayout.setVisibility(View.GONE);
+        suggestLayout.setVisibility(GONE);
         exitSuggest.setOnClickListener(new View.OnClickListener() {
 
             @Override
             public void onClick(View v) {
-                suggestLayout.setVisibility(View.GONE);
+                suggestLayout.setVisibility(GONE);
                 SoundPlayer.getInstance().stopMedia();
-                meanning.setVisibility(View.GONE);
-                playSound.setVisibility(View.GONE);
+                meanning.setVisibility(GONE);
+                playSound.setVisibility(GONE);
                 question.setVisibility(View.VISIBLE);
                 resetInput();
             }
@@ -244,6 +249,8 @@ public class CrossWordFragment extends Fragment {
                 currentSelectWord = getEnglishWord(word);
                 wordInput.setItemCount(currentWordLength);
                 suggestLayout.setVisibility(View.VISIBLE);
+                alphabetAdapter.setWord(currentSelectWord.getWord());
+                alphabetAdapter.notifyDataSetChanged();
 
                 GlideApp
                         .with(getContext())
@@ -284,7 +291,7 @@ public class CrossWordFragment extends Fragment {
         meanning.setText(currentSelectWord.getMean());
         SoundPlayer.getInstance().playMedia(currentSelectWord.getAudio());
         playSound.setVisibility(View.VISIBLE);
-        question.setVisibility(View.GONE);
+        question.setVisibility(GONE);
 
         Handler handler = new Handler();
         handler.postDelayed(new Runnable() {
@@ -301,6 +308,7 @@ public class CrossWordFragment extends Fragment {
     private void showError() {
         wordInput.setBackgroundColor(Color.RED);
         wrong.setVisibility(View.VISIBLE);
+        alphabetAdapter.notifyDataSetChanged();
 
         Handler handler = new Handler();
         handler.postDelayed(new Runnable() {
@@ -392,6 +400,9 @@ public class CrossWordFragment extends Fragment {
                 assert ((Character) alphabetAdapter.getItem((position))) != null;
                 currentInputWord.append(((Character) alphabetAdapter.getItem((position))).charValue());
                 wordInput.setText(currentInputWord.toString());
+                view.setVisibility(View.INVISIBLE);
+                alphabetAdapter.addClickPosition(position);
+
             }
         });
 
@@ -428,12 +439,28 @@ public class CrossWordFragment extends Fragment {
                 resetInput();
             }
         });
+
+        delete.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                deleteChar();
+            }
+        });
+    }
+
+    private void deleteChar() {
+        if (wordInput.getText().length() > 0) {
+            alphabet.getChildAt(alphabetAdapter.getLastClickPosition()).setVisibility(View.VISIBLE);
+            wordInput.setText(currentInputWord.deleteCharAt(currentInputWord.length() - 1));
+            alphabetAdapter.removeLastClickPosition();
+        }
     }
 
     private void resetInput() {
         wordInput.getText().clear();
         currentInputWord = new StringBuilder();
         wordInput.setBackgroundColor(Color.WHITE);
+        alphabet.setAdapter(alphabetAdapter);
     }
 
     private void showWord() {
