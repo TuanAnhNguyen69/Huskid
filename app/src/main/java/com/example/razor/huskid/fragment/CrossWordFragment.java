@@ -140,9 +140,9 @@ public class CrossWordFragment extends Fragment {
     public static CrossWordFragment newInstance(int width, int height, String topic) {
         CrossWordFragment fragment = new CrossWordFragment();
         Bundle args = new Bundle();
-        args.putInt(WIDTH, width);
-        args.putInt(HEIGHT, height);
-        args.putString(TOPIC, topic);
+        fragment.height = height;
+        fragment.topic = topic;
+        fragment.width = width;
         fragment.setArguments(args);
         return fragment;
     }
@@ -150,11 +150,6 @@ public class CrossWordFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            width = getArguments().getInt(WIDTH, 8);
-            height = getArguments().getInt(HEIGHT, 8);
-            topic = getArguments().getString(TOPIC);
-        }
         crossWord = new CrossWord(width, height);
 
     }
