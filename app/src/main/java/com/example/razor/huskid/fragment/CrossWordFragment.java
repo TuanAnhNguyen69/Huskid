@@ -48,8 +48,10 @@ import static android.view.View.GONE;
 public class CrossWordFragment extends Fragment {
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
+    private static final String WIDTH = "width";
+    private static final String HEIGHT = "height";
+    private static final String TOPIC = "height";
+
 
     @BindView(R.id.board)
     GridView board;
@@ -98,8 +100,9 @@ public class CrossWordFragment extends Fragment {
     @BindView(R.id.delete)
     ImageButton delete;
 
-    private int mParam1;
-    private int mParam2;
+    private int height;
+    private int width;
+    private String topic;
 
     ArrayList<EnglishWord> words;
     ArrayList<EnglishWord> order;
@@ -114,8 +117,6 @@ public class CrossWordFragment extends Fragment {
     EnglishWord currentSelectWord;
     ArrayList<Integer> currentSelectWordTileIndex;
 
-    String topic;
-
     private OnFragmentInteractionListener mListener;
 
     public CrossWordFragment() {
@@ -124,7 +125,6 @@ public class CrossWordFragment extends Fragment {
         order = new ArrayList<>();
         tiles = new ArrayList<>();
         added = new ArrayList<>();
-        topic = "body";
         currentWordLength = 0;
         currentSelectWordTileIndex = new ArrayList<>();
     }
@@ -137,11 +137,12 @@ public class CrossWordFragment extends Fragment {
      * @param height Height of board.
      * @return A new instance of fragment CrossWordFragment.
      */
-    public static CrossWordFragment newInstance(int width, int height) {
+    public static CrossWordFragment newInstance(int width, int height, String topic) {
         CrossWordFragment fragment = new CrossWordFragment();
         Bundle args = new Bundle();
-        args.putInt(ARG_PARAM1, width);
-        args.putInt(ARG_PARAM2, height);
+        args.putInt(WIDTH, width);
+        args.putInt(HEIGHT, height);
+        args.putString(TOPIC, topic);
         fragment.setArguments(args);
         return fragment;
     }
@@ -150,10 +151,11 @@ public class CrossWordFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
-            mParam1 = getArguments().getInt(ARG_PARAM1, 8);
-            mParam2 = getArguments().getInt(ARG_PARAM2, 8);
+            width = getArguments().getInt(WIDTH, 8);
+            height = getArguments().getInt(HEIGHT, 8);
+            topic = getArguments().getString(TOPIC);
         }
-        crossWord = new CrossWord(mParam1, mParam2);
+        crossWord = new CrossWord(width, height);
 
     }
 

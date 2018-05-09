@@ -1,5 +1,6 @@
 package com.example.razor.huskid.activity;
 
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.Gravity;
@@ -21,6 +22,8 @@ import butterknife.ButterKnife;
 
 public class HomeActivity extends AppCompatActivity {
 
+    public static final String TOPIC = "topic";
+
     @BindView(R.id.topicList)
     ListView topicListView;
 
@@ -40,7 +43,9 @@ public class HomeActivity extends AppCompatActivity {
         topicListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                onButtonClick(view, topicsAdapter.getTopics().get(position));
+                Intent intent = new Intent(HomeActivity.this, GameActivity.class);
+                intent.putExtra(TOPIC, DatabaseHelper.getInstance().getAllTopics().get(position).getName());
+                startActivity(intent);
             }
         });
     }
