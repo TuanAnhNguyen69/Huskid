@@ -31,7 +31,7 @@ public class GameActivity extends AppCompatActivity implements
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_game);
 
-        crossWordFragment = CrossWordFragment.newInstance(10, 10, getIntent().getStringExtra(TOPIC));
+        crossWordFragment = CrossWordFragment.newInstance(8, 8, getIntent().getStringExtra(TOPIC));
         attachFragment(crossWordFragment);
     }
 

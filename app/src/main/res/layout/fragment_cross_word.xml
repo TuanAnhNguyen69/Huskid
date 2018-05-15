@@ -1,18 +1,21 @@
 <android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/parent"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context="com.example.razor.huskid.fragment.CrossWordFragment">
 
     <GridView
         android:id="@+id/board"
-        android:layout_width="400dp"
-        android:layout_height="400dp"
+        android:layout_width="320dp"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
         android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
         android:numColumns="10"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -32,7 +35,7 @@
 
         <android.support.constraint.ConstraintLayout
             android:id="@+id/input"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="0dp"
             android:layout_marginBottom="8dp"
             android:layout_marginEnd="8dp"
@@ -44,17 +47,48 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/cardView">
 
-            <ImageButton
-                android:id="@+id/reset"
-                android:layout_width="wrap_content"
+            <TableLayout
+                android:id="@+id/alphabet"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="8dp"
+                android:layout_margin="8dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/wordInput">
+
+                <TableRow
+                    android:id="@+id/qrow"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:gravity="center" />
+
+                <TableRow
+                    android:id="@+id/arow"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:gravity="center" />
+
+                <TableRow
+                    android:id="@+id/zrow"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="center_horizontal"
+                    android:gravity="center" />
+
+            </TableLayout>
+
+            <ImageButton
+                android:id="@+id/check"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
                 android:layout_marginEnd="8dp"
                 android:layout_marginStart="8dp"
-                android:src="@android:drawable/ic_delete"
-                app:layout_constraintBottom_toBottomOf="parent"
+                android:background="@color/transparent"
+                android:scaleType="fitStart"
+                android:src="@drawable/check"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="@+id/guideline" />
+                app:layout_constraintStart_toStartOf="@+id/guideline"
+                app:layout_constraintTop_toBottomOf="@+id/alphabet" />
 
             <android.support.constraint.Guideline
                 android:id="@+id/guideline"
@@ -66,15 +100,18 @@
                 app:layout_constraintTop_toTopOf="parent" />
 
             <ImageButton
-                android:id="@+id/delete"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:id="@+id/reset"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
                 android:layout_marginEnd="8dp"
                 android:layout_marginStart="8dp"
-                android:src="@drawable/banned"
+                android:background="@color/transparent"
+                android:scaleType="fitStart"
+                android:src="@drawable/reset"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toStartOf="@+id/guideline"
-                app:layout_constraintStart_toStartOf="parent" />
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/alphabet" />
 
             <com.chaos.view.PinView
                 android:id="@+id/wordInput"
@@ -99,20 +136,13 @@
                 app:lineWidth="2dp"
                 app:viewType="rectangle" />
 
-            <GridView
-                android:id="@+id/alphabet"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
-                android:numColumns="7"
-                app:layout_constraintTop_toBottomOf="@+id/wordInput" />
-
         </android.support.constraint.ConstraintLayout>
 
         <android.support.v7.widget.CardView
             android:id="@+id/cardView"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_margin="20dp"
             android:background="@android:color/holo_purple"
             app:cardBackgroundColor="@android:color/holo_purple"
             app:cardCornerRadius="10dp"
@@ -135,41 +165,6 @@
                     android:layout_toEndOf="@+id/meanning"
                     android:src="@android:drawable/ic_media_play"
                     android:visibility="gone" />
-
-                <ImageView
-                    android:id="@+id/question"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@+id/meanning"
-                    android:layout_centerHorizontal="true"
-                    android:src="@drawable/faq" />
-
-                <ImageView
-                    android:id="@+id/correct"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentStart="true"
-                    android:layout_below="@+id/sugggestImage"
-                    android:src="@drawable/check"
-                    android:visibility="invisible" />
-
-                <ImageView
-                    android:id="@+id/wrong"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentEnd="true"
-                    android:layout_below="@+id/sugggestImage"
-                    android:src="@drawable/banned"
-                    android:visibility="invisible" />
-
-                <ImageView
-                    android:id="@+id/exit"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentEnd="true"
-                    android:layout_alignParentTop="true"
-                    android:elevation="10dp"
-                    android:src="@drawable/remove" />
 
                 <TextView
                     android:id="@+id/meanning"
@@ -194,19 +189,33 @@
                     android:layout_height="300dp"
                     android:layout_centerHorizontal="true"
                     android:layout_gravity="center"
-                    android:layout_marginBottom="8dp"
+                    android:layout_marginBottom="20dp"
                     android:layout_marginEnd="8dp"
                     android:layout_marginStart="8dp"
-                    android:layout_marginTop="8dp"
+                    android:layout_marginTop="20dp"
                     android:adjustViewBounds="true"
                     android:src="@mipmap/ic_launcher"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent" />
+
             </RelativeLayout>
 
         </android.support.v7.widget.CardView>
 
     </android.support.constraint.ConstraintLayout>
+
+    <ImageView
+        android:id="@+id/exit"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:layout_alignParentEnd="false"
+        android:layout_alignParentTop="false"
+        android:layout_marginEnd="8dp"
+        android:layout_marginTop="8dp"
+        android:elevation="10dp"
+        android:src="@drawable/remove"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
 </android.support.constraint.ConstraintLayout>

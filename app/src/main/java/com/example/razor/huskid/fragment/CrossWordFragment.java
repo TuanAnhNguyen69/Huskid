@@ -6,6 +6,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.constraint.ConstraintLayout;
+import android.support.constraint.ConstraintSet;
 import android.support.v4.app.Fragment;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -16,6 +17,8 @@ import android.widget.AdapterView;
 import android.widget.GridView;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.TableLayout;
+import android.widget.TableRow;
 import android.widget.TextView;
 
 import com.chaos.view.PinView;
@@ -28,12 +31,14 @@ import com.example.razor.huskid.entity.EnglishWord;
 import com.example.razor.huskid.entity.Tile;
 import com.example.razor.huskid.helper.DatabaseHelper;
 import com.example.razor.huskid.helper.SoundPlayer;
+import com.example.razor.huskid.helper.Utils;
 
 import java.util.ArrayList;
 import java.util.Random;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import mehdi.sakout.fancybuttons.FancyButton;
 
 import static android.view.View.GONE;
 
@@ -53,11 +58,23 @@ public class CrossWordFragment extends Fragment {
     private static final String TOPIC = "height";
 
 
+    @BindView(R.id.parent)
+    ConstraintLayout parent;
+
     @BindView(R.id.board)
     GridView board;
 
     @BindView(R.id.alphabet)
-    GridView alphabet;
+    TableLayout alphabet;
+
+    @BindView(R.id.qrow)
+    TableRow qRow;
+
+    @BindView(R.id.arow)
+    TableRow aRow;
+
+    @BindView(R.id.zrow)
+    TableRow zRow;
 
     @BindView(R.id.suggest)
     ConstraintLayout suggestLayout;
@@ -81,24 +98,11 @@ public class CrossWordFragment extends Fragment {
     @BindView(R.id.play_sound)
     ImageView playSound;
 
-
-    @BindView(R.id.wrong)
-    ImageView wrong;
-
-
-    @BindView(R.id.correct)
-    ImageView correct;
-
-
-    @BindView(R.id.question)
-    ImageView question;
-
+    @BindView(R.id.check)
+    ImageButton check;
 
     @BindView(R.id.reset)
     ImageButton reset;
-
-    @BindView(R.id.delete)
-    ImageButton delete;
 
     private int height;
     private int width;
@@ -110,7 +114,6 @@ public class CrossWordFragment extends Fragment {
     ArrayList<Tile> tiles;
     CrossWord crossWord;
     TileAdapter tileAdapter;
-    AlphabetAdapter alphabetAdapter;
 
     StringBuilder currentInputWord;
     int currentWordLength;
@@ -182,7 +185,6 @@ public class CrossWordFragment extends Fragment {
                 SoundPlayer.getInstance().stopMedia();
                 meanning.setVisibility(GONE);
                 playSound.setVisibility(GONE);
-                question.setVisibility(View.VISIBLE);
                 resetInput();
             }
         });
@@ -197,7 +199,7 @@ public class CrossWordFragment extends Fragment {
         playSound.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                SoundPlayer.getInstance().playMedia(currentSelectWord.getAudio());
+                SoundPlayer.getInstance().playMedia();
             }
         });
     }
@@ -233,6 +235,15 @@ public class CrossWordFragment extends Fragment {
 
     private void initBoard() {
         tileAdapter = new TileAdapter(getContext(), tiles);
+        ConstraintLayout.LayoutParams params = new ConstraintLayout.LayoutParams(height * Utils.convertDpToPixel(40, getContext()),
+                height * Utils.convertDpToPixel(40, getContext()));
+        ConstraintSet constraintSet = new ConstraintSet();
+        constraintSet.centerHorizontally(R.id.board, R.id.parent);
+        constraintSet.centerVertically(R.id.board, R.id.parent);
+        constraintSet.constrainHeight(R.id.board, height * Utils.convertDpToPixel(40, getContext()));
+        constraintSet.constrainWidth(R.id.board,  height * Utils.convertDpToPixel(40, getContext()));
+        constraintSet.applyTo(parent);
+        board.setNumColumns(height);
         board.setAdapter(tileAdapter);
         board.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -246,8 +257,9 @@ public class CrossWordFragment extends Fragment {
                 currentSelectWord = getEnglishWord(word);
                 wordInput.setItemCount(currentWordLength);
                 suggestLayout.setVisibility(View.VISIBLE);
-                alphabetAdapter.setWord(currentSelectWord.getWord());
-                alphabetAdapter.notifyDataSetChanged();
+                SoundPlayer.getInstance().prepareMedia(currentSelectWord.getAudio());
+                //alphabetAdapter.setWord(currentSelectWord.getWord());
+                //alphabetAdapter.notifyDataSetChanged();
 
                 GlideApp
                         .with(getContext())
@@ -258,8 +270,6 @@ public class CrossWordFragment extends Fragment {
                 setCurrentSelectedTiles(true);
             }
         });
-
-
     }
 
     private void setCurrentSelectedTiles(boolean selected) {
@@ -283,19 +293,16 @@ public class CrossWordFragment extends Fragment {
 
     private void showCorrect() {
         wordInput.setBackgroundColor(Color.GREEN);
-        correct.setVisibility(View.VISIBLE);
         meanning.setVisibility(View.VISIBLE);
         meanning.setText(currentSelectWord.getMean());
-        SoundPlayer.getInstance().playMedia(currentSelectWord.getAudio());
+        SoundPlayer.getInstance().playMedia();
         playSound.setVisibility(View.VISIBLE);
-        question.setVisibility(GONE);
 
         Handler handler = new Handler();
         handler.postDelayed(new Runnable() {
             @Override
             public void run() {
                 wordInput.setBackgroundColor(Color.WHITE);
-                correct.setVisibility(View.INVISIBLE);
                 showWord();
 
             }
@@ -304,15 +311,12 @@ public class CrossWordFragment extends Fragment {
 
     private void showError() {
         wordInput.setBackgroundColor(Color.RED);
-        wrong.setVisibility(View.VISIBLE);
-        alphabetAdapter.notifyDataSetChanged();
 
         Handler handler = new Handler();
         handler.postDelayed(new Runnable() {
             @Override
             public void run() {
                 wordInput.setBackgroundColor(Color.WHITE);
-                wrong.setVisibility(View.INVISIBLE);
             }
         }, 500);
     }
@@ -333,7 +337,7 @@ public class CrossWordFragment extends Fragment {
 
 
         if (tile.getHorizontalNumber() > 0) {
-            int rowStart = position / 10 * 10;
+            int rowStart = position / height * height;
             for (int i = position; i >= rowStart ; i--) {
                 char character = tiles.get(i).getCharacter();
                 if (character == ' ') {
@@ -344,7 +348,7 @@ public class CrossWordFragment extends Fragment {
             }
             word.reverse();
 
-            for (int i = position + 1; i < rowStart + 10; i++) {
+            for (int i = position + 1; i < rowStart + height; i++) {
                 char character = tiles.get(i).getCharacter();
                 if (character == ' ') {
                     break;
@@ -354,8 +358,8 @@ public class CrossWordFragment extends Fragment {
             }
 
         } else if (tile.getVerticalNumber() > 0) {
-            int colStart = position % 10;
-            for (int i = position; i >= colStart; i-=10) {
+            int colStart = position % height;
+            for (int i = position; i >= colStart; i -= height) {
                 char character = tiles.get(i).getCharacter();
                 if (character == ' ') {
                     break;
@@ -365,7 +369,7 @@ public class CrossWordFragment extends Fragment {
             }
             word.reverse();
 
-            for (int i = position + 10; i < colStart + 100; i += 10) {
+            for (int i = position + height; i < colStart + (height * height); i += height) {
                 char character = tiles.get(i).getCharacter();
                 if (character == ' ') {
                     break;
@@ -381,52 +385,41 @@ public class CrossWordFragment extends Fragment {
     }
 
     private void initInput() {
-        alphabetAdapter = new AlphabetAdapter(getContext());
-        alphabet.setAdapter(alphabetAdapter);
-        alphabet.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                if (currentInputWord == null) {
-                    currentInputWord = new StringBuilder();
-                }
+        String qRowChar = "QWERTYUIOP";
+        for (int i = 0; i < qRowChar.length(); i++) {
+            qRow.addView(createButton(qRowChar.charAt(i)));
+        }
 
-                if (currentInputWord.length() >= wordInput.getItemCount()) {
-                    return;
-                }
+        String aRowChar = "ASDFGHJKL";
+        for (int i = 0; i < aRowChar.length(); i++) {
+            aRow.addView(createButton(aRowChar.charAt(i)));
+        }
 
-                assert ((Character) alphabetAdapter.getItem((position))) != null;
-                currentInputWord.append(((Character) alphabetAdapter.getItem((position))).charValue());
-                wordInput.setText(currentInputWord.toString());
-                view.setVisibility(View.INVISIBLE);
-                alphabetAdapter.addClickPosition(position);
-
-            }
-        });
-
-        wordInput.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
-            }
-
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-
-            }
-
-            @Override
-            public void afterTextChanged(Editable s) {
-                if (s.length() == currentWordLength) {
-                    Handler handler = new Handler();
-                    handler.postDelayed(new Runnable() {
-                        @Override
-                        public void run() {
-                            checkResult();
-                        }
-                    }, 1000);
-                }
-            }
-        });
+        String zRowChar = "ZXCVBNM";
+        for (int i = 0; i < zRowChar.length(); i++) {
+            zRow.addView(createButton(zRowChar.charAt(i)));
+        }
+//        alphabetAdapter = new AlphabetAdapter(getContext());
+//        alphabet.setAdapter(alphabetAdapter);
+//        alphabet.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+//            @Override
+//            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+//                if (currentInputWord == null) {
+//                    currentInputWord = new StringBuilder();
+//                }
+//
+//                if (currentInputWord.length() >= wordInput.getItemCount()) {
+//                    return;
+//                }
+//
+//                assert ((Character) alphabetAdapter.getItem((position))) != null;
+//                currentInputWord.append(((Character) alphabetAdapter.getItem((position))).charValue());
+//                wordInput.setText(currentInputWord.toString());
+//                view.setVisibility(View.INVISIBLE);
+//                alphabetAdapter.addClickPosition(position);
+//
+//            }
+//        });
         wordInput.setClickable(false);
         wordInput.setFocusableInTouchMode(false);
 
@@ -437,19 +430,17 @@ public class CrossWordFragment extends Fragment {
             }
         });
 
-        delete.setOnClickListener(new View.OnClickListener() {
+        check.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                deleteChar();
+                checkResult();
             }
         });
     }
 
     private void deleteChar() {
         if (wordInput.getText().length() > 0) {
-            alphabet.getChildAt(alphabetAdapter.getLastClickPosition()).setVisibility(View.VISIBLE);
             wordInput.setText(currentInputWord.deleteCharAt(currentInputWord.length() - 1));
-            alphabetAdapter.removeLastClickPosition();
         }
     }
 
@@ -457,7 +448,6 @@ public class CrossWordFragment extends Fragment {
         wordInput.getText().clear();
         currentInputWord = new StringBuilder();
         wordInput.setBackgroundColor(Color.WHITE);
-        alphabet.setAdapter(alphabetAdapter);
     }
 
     private void showWord() {
@@ -518,6 +508,37 @@ public class CrossWordFragment extends Fragment {
         mListener = null;
     }
 
+    public FancyButton createButton(final Character letter) {
+        FancyButton fancyButton = new FancyButton(getContext());
+        TableRow.LayoutParams params = new TableRow.LayoutParams();
+        params.width = Utils.convertDpToPixel(30,getContext());
+        params.height = Utils.convertDpToPixel(40,getContext());
+        int margin = Utils.convertDpToPixel(5, getContext());
+        params.setMargins(margin, margin, margin, margin);
+        fancyButton.setLayoutParams(params);
+        fancyButton.setText(letter.toString());
+        fancyButton.setBorderColor(Color.BLACK);
+        fancyButton.setBackgroundColor(Color.RED);
+        fancyButton.setRadius(Utils.convertDpToPixel(2, getContext()));
+        fancyButton.setBorderWidth(Utils.convertDpToPixel(2, getContext()));
+        fancyButton.setTextSize(18);
+        fancyButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (currentInputWord == null) {
+                    currentInputWord = new StringBuilder();
+                }
+
+                if (currentInputWord.length() >= wordInput.getItemCount()) {
+                    return;
+                }
+                currentInputWord.append(letter);
+                wordInput.setText(currentInputWord.toString());
+                //alphabetAdapter.addClickPosition(position);
+            } }
+        );
+        return fancyButton;
+    }
     /**
      * This interface must be implemented by activities that contain this
      * fragment to allow an interaction in this fragment to be communicated

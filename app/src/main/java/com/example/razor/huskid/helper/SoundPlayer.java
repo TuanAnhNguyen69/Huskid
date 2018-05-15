@@ -18,18 +18,20 @@ public class SoundPlayer {
         mediaPlayer = new MediaPlayer();
     }
 
-    public void playMedia(String mediaLink) {
-        MediaPlayer onlineMediaPlayer = new MediaPlayer();
-        mediaPlayer = onlineMediaPlayer;
-        onlineMediaPlayer.setAudioStreamType(AudioManager.STREAM_MUSIC);
+    public void prepareMedia(String mediaLink) {
+        mediaPlayer = new MediaPlayer();
+        mediaPlayer.setAudioStreamType(AudioManager.STREAM_MUSIC);
         try {
-            onlineMediaPlayer.setDataSource(mediaLink);
-            onlineMediaPlayer.prepare(); // might take long! (for buffering, etc)
+            mediaPlayer.setDataSource(mediaLink);
+            mediaPlayer.prepare(); // might take long! (for buffering, etc)
         } catch (IOException e) {
             e.printStackTrace();
         }
-        if (!onlineMediaPlayer.isPlaying()) {
-            onlineMediaPlayer.start();
+    }
+
+    public void playMedia() {
+        if (!mediaPlayer.isPlaying()) {
+            mediaPlayer.start();
         }
     }
 

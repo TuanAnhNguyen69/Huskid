@@ -1,71 +1,86 @@
 <?xml version="1.0" encoding="utf-8"?>
 <GridLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/submitPopup"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    android:columnCount="2"
-    android:background="@color/colorPink"
     android:layout_gravity="center"
+    android:background="@color/colorPink"
+    android:columnCount="2"
     android:numColumns="2"
     android:padding="4dp"
     android:scrollbars="none"
     android:stretchMode="columnWidth"
-    android:visibility="visible"
 
-    android:id="@+id/submitPopup">
+    android:visibility="visible">
 
-    <LinearLayout
-        android:layout_width="120dp"
-        android:layout_height="120dp"
-        android:layout_gravity="center"
-        android:gravity="center"
-        android:layout_margin="5dp"
-        android:paddingTop="10dp"
-        android:paddingRight="10dp"
-        android:paddingLeft="10dp"
-        android:orientation="vertical">
-        <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:layout_width="120dp"
+            android:layout_height="120dp"
             android:layout_gravity="center"
-            android:maxHeight="100dp"
-            android:maxWidth="100dp"
-            android:src="@mipmap/ic_library_books_white_48dp"
-            android:id="@+id/btnLearn"/>
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
-            android:paddingTop="10dp"
-            android:text="LEARN"
-            android:textSize="20dp"
-            android:textStyle="bold"
-            android:textColor="@color/colorWhite"/>
-    </LinearLayout>
+            android:layout_margin="5dp"
+            android:gravity="center"
+            android:orientation="vertical"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp"
+            android:paddingTop="10dp">
 
-    <LinearLayout
-        android:layout_width="120dp"
-        android:layout_height="120dp"
-        android:layout_gravity="center"
-        android:gravity="center"
-        android:layout_margin="5dp"
-        android:paddingTop="10dp"
-        android:orientation="vertical">
-        <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            <ImageView
+                android:id="@+id/btnLearn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:maxHeight="100dp"
+                android:maxWidth="100dp"
+                android:src="@mipmap/ic_library_books_white_48dp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:paddingTop="10dp"
+                android:text="LEARN"
+                android:textColor="@color/colorWhite"
+                android:textSize="20dp"
+                android:textStyle="bold" />
+        </LinearLayout>
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:layout_width="120dp"
+            android:layout_height="120dp"
             android:layout_gravity="center"
-            android:maxHeight="100dp"
-            android:maxWidth="100dp"
-            android:src="@mipmap/ic_gamepad_white_48dp"
-            android:id="@+id/btnPlay"/>
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
-            android:paddingTop="10dp"
-            android:text="PLAY"
-            android:textSize="20dp"
-            android:textStyle="bold"
-            android:textColor="@color/colorWhite"/>
-    </LinearLayout>
+            android:layout_margin="5dp"
+            android:gravity="center"
+            android:orientation="vertical"
+            android:paddingTop="10dp">
+
+            <ImageView
+                android:id="@+id/btnPlay"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:maxHeight="100dp"
+                android:maxWidth="100dp"
+                android:src="@mipmap/ic_gamepad_white_48dp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:paddingTop="10dp"
+                android:text="PLAY"
+                android:textColor="@color/colorWhite"
+                android:textSize="20dp"
+                android:textStyle="bold" />
+        </LinearLayout>
+    </RelativeLayout>
+
 </GridLayout>
