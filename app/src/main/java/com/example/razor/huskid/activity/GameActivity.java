@@ -1,6 +1,7 @@
 package com.example.razor.huskid.activity;
 
 import android.Manifest;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Build;
 import android.support.annotation.RequiresApi;
@@ -16,6 +17,7 @@ import com.example.razor.huskid.R;
 
 import com.example.razor.huskid.fragment.CrossWordFragment;
 
+import static com.example.razor.huskid.activity.HomeActivity.LEVEL;
 import static com.example.razor.huskid.activity.HomeActivity.TOPIC;
 
 
@@ -30,8 +32,7 @@ public class GameActivity extends AppCompatActivity implements
     {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_game);
-
-        crossWordFragment = CrossWordFragment.newInstance(8, 8, getIntent().getStringExtra(TOPIC));
+        crossWordFragment = CrossWordFragment.newInstance(getIntent().getIntExtra(LEVEL, 8), getIntent().getStringExtra(TOPIC));
         attachFragment(crossWordFragment);
     }
 

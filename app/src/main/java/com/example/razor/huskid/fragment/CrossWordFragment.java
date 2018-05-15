@@ -105,7 +105,6 @@ public class CrossWordFragment extends Fragment {
     ImageButton reset;
 
     private int height;
-    private int width;
     private String topic;
 
     ArrayList<EnglishWord> words;
@@ -136,16 +135,14 @@ public class CrossWordFragment extends Fragment {
      * Use this factory method to create a new instance of
      * this fragment using the provided parameters.
      *
-     * @param width Width of board.
      * @param height Height of board.
      * @return A new instance of fragment CrossWordFragment.
      */
-    public static CrossWordFragment newInstance(int width, int height, String topic) {
+    public static CrossWordFragment newInstance(int height, String topic) {
         CrossWordFragment fragment = new CrossWordFragment();
         Bundle args = new Bundle();
         fragment.height = height;
         fragment.topic = topic;
-        fragment.width = width;
         fragment.setArguments(args);
         return fragment;
     }
@@ -153,7 +150,7 @@ public class CrossWordFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        crossWord = new CrossWord(width, height);
+        crossWord = new CrossWord(height, height);
 
     }
 

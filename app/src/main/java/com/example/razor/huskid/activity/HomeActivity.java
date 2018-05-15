@@ -27,6 +27,7 @@ import butterknife.ButterKnife;
 public class HomeActivity extends AppCompatActivity {
 
     public static final String TOPIC = "topic";
+    public static final String LEVEL = "level";
 
     @BindView(R.id.topicList)
     ListView topicListView;
@@ -45,6 +46,7 @@ public class HomeActivity extends AppCompatActivity {
 
     private TopicsAdapter topicsAdapter;
     boolean settingOpen;
+    boolean gameLevelOpen;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,6 +55,7 @@ public class HomeActivity extends AppCompatActivity {
         ButterKnife.bind(this);
         initTopicList();
         settingOpen = false;
+        gameLevelOpen = false;
         settingLayout.setBackgroundResource(R.drawable.setting_back);
         mute.setVisibility(View.INVISIBLE);
         about.setVisibility(View.INVISIBLE);
@@ -89,15 +92,43 @@ public class HomeActivity extends AppCompatActivity {
         });
     }
 
-    public void onButtonClick(String topic) {
+    public void onButtonClick(final String topic) {
         BlurPopupWindow builder = new BlurPopupWindow.Builder(this)
                 .setContentView(R.layout.popup_window)
                 .bindClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        Toast.makeText(v.getContext(), "click", Toast.LENGTH_LONG).show();
+                        gotoLearn(topic);
                     }
                 }, R.id.btnLearn)
+                .bindClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        View gameMode = findViewById(R.id.game_mode);
+                        View btnLearn = findViewById(R.id.btnLearn);
+                        if (gameLevelOpen) {
+                            gameMode.setVisibility(View.GONE);
+                            btnLearn.setVisibility(View.VISIBLE);
+                            gameLevelOpen = false;
+                            return;
+                        }
+                        gameMode.setVisibility(View.VISIBLE);
+                        btnLearn.setVisibility(View.GONE);
+                        gameLevelOpen = true;
+                    }
+                }, R.id.btnPlay)
+                .bindClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        gotoGame(topic, 8);
+                    }
+                }, R.id.normal)
+                .bindClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        gotoGame(topic, 10);
+                    }
+                }, R.id.hard)
                 .setGravity(Gravity.CENTER)
                 .setScaleRatio(0.2f)
                 .setBlurRadius(10)
@@ -107,7 +138,16 @@ public class HomeActivity extends AppCompatActivity {
         builder.show();
     }
 
-    public void gotoLearn() {
+    public void gotoLearn(String topic) {
+        Intent intent = new Intent(HomeActivity.this, LearnActivity.class);
+                intent.putExtra(TOPIC, topic);
+                startActivity(intent);
+    }
 
+    public void gotoGame(String topic, int level) {
+        Intent intent = new Intent(HomeActivity.this, GameActivity.class);
+        intent.putExtra(TOPIC, topic);
+        intent.putExtra(LEVEL, level);
+        startActivity(intent);
     }
 }
