@@ -38,35 +38,6 @@ public class SlideAdapter extends PagerAdapter {
         this.context = context;
         words = objects;
     }
-//
-//    @Override
-//    public int getCount() {
-//        return words.size();
-//    }
-//
-//    @Override
-//    public boolean isViewFromObject(@NonNull View view, @NonNull Object object) {
-//        return false;
-//    }
-//
-//    @Nullable
-//    @Override
-//    public EnglishWord getItem(int position) {
-//        return words.get(position);
-//    }
-//
-//    @NonNull
-//    @Override
-//    public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
-//        @SuppressLint("ViewHolder")
-//        View rootView = LayoutInflater.from(context).inflate(R.layout.slider,parent, false);
-//        ImageView imageView = rootView.findViewById(R.id.img_slider);
-//        if (words.get(position) != null) {
-//            GlideApp.with(context).load(words.get(position).getImage()).centerCrop().into(imageView);
-//        }
-//        return rootView;
-//    }
-
 
     @NonNull
     @Override
@@ -75,7 +46,7 @@ public class SlideAdapter extends PagerAdapter {
         View rootView = LayoutInflater.from(context).inflate(R.layout.slider, container, false);
         ImageView imageView = rootView.findViewById(R.id.img_slider);
         if (words.get(position) != null) {
-            GlideApp.with(context).load(words.get(position).getImage()).centerCrop().into(imageView);
+            GlideApp.with(context).load(words.get(position).getImage()).fitCenter().into(imageView);
         }
         container.addView(rootView);
         return rootView;

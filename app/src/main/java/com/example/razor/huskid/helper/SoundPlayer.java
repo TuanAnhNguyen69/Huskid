@@ -3,36 +3,24 @@ package com.example.razor.huskid.helper;
 import android.content.Context;
 import android.media.AudioManager;
 import android.media.MediaPlayer;
+import android.os.AsyncTask;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.HashMap;
 
-public class SoundPlayer {
+public class SoundPlayer{
     private static final SoundPlayer ourInstance = new SoundPlayer();
 
     public static SoundPlayer getInstance() {
         return ourInstance;
     }
     private MediaPlayer mediaPlayer;
+    private HashMap<String, MediaPlayer> mediaList;
 
     private SoundPlayer() {
         mediaPlayer = new MediaPlayer();
-    }
-
-    public void prepareMedia(String mediaLink) {
-        mediaPlayer = new MediaPlayer();
-        mediaPlayer.setAudioStreamType(AudioManager.STREAM_MUSIC);
-        try {
-            mediaPlayer.setDataSource(mediaLink);
-            mediaPlayer.prepare(); // might take long! (for buffering, etc)
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
-
-    public void playMedia() {
-        if (!mediaPlayer.isPlaying()) {
-            mediaPlayer.start();
-        }
+        mediaList = new HashMap<>();
     }
 
     public void playMedia(Context context, int resID) {
@@ -46,6 +34,22 @@ public class SoundPlayer {
     public void stopMedia() {
         if (mediaPlayer.isPlaying()) {
             mediaPlayer.stop();
+        }
+    }
+
+    public void addMedia(HashMap<String, MediaPlayer> mediaLinks) {
+        mediaList.putAll(mediaLinks);
+    }
+
+    public void removeMedia(String mediaLink) {
+        mediaList.remove(mediaLink);
+    }
+
+    public void playMedia(String mediaLink) {
+        MediaPlayer mediaPlayer = mediaList.get(mediaLink);
+        if (mediaPlayer != null && !mediaPlayer.isPlaying()) {
+            mediaPlayer.start();
+            this.mediaPlayer = mediaPlayer;
         }
     }
 }

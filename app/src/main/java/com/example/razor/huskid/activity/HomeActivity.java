@@ -104,8 +104,8 @@ public class HomeActivity extends AppCompatActivity {
                 .bindClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        View gameMode = findViewById(R.id.game_mode);
-                        View btnLearn = findViewById(R.id.btnLearn);
+                        View gameMode = v.getRootView().findViewById(R.id.game_mode);
+                        View btnLearn = v.getRootView().findViewById(R.id.btnLearn);
                         if (gameLevelOpen) {
                             gameMode.setVisibility(View.GONE);
                             btnLearn.setVisibility(View.VISIBLE);

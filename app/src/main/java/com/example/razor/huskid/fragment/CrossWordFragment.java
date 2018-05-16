@@ -3,6 +3,7 @@ package com.example.razor.huskid.fragment;
 import android.content.Context;
 import android.graphics.Color;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.constraint.ConstraintLayout;
@@ -28,6 +29,7 @@ import com.example.razor.huskid.adapter.AlphabetAdapter;
 import com.example.razor.huskid.adapter.TileAdapter;
 import com.example.razor.huskid.entity.CrossWord;
 import com.example.razor.huskid.entity.EnglishWord;
+import com.example.razor.huskid.entity.GetMedia;
 import com.example.razor.huskid.entity.Tile;
 import com.example.razor.huskid.helper.DatabaseHelper;
 import com.example.razor.huskid.helper.SoundPlayer;
@@ -118,6 +120,7 @@ public class CrossWordFragment extends Fragment {
     int currentWordLength;
     EnglishWord currentSelectWord;
     ArrayList<Integer> currentSelectWordTileIndex;
+    GetMedia getMedia;
 
     private OnFragmentInteractionListener mListener;
 
@@ -127,6 +130,7 @@ public class CrossWordFragment extends Fragment {
         order = new ArrayList<>();
         tiles = new ArrayList<>();
         added = new ArrayList<>();
+        getMedia = new GetMedia();
         currentWordLength = 0;
         currentSelectWordTileIndex = new ArrayList<>();
     }
@@ -196,7 +200,7 @@ public class CrossWordFragment extends Fragment {
         playSound.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                SoundPlayer.getInstance().playMedia();
+                SoundPlayer.getInstance().playMedia(currentSelectWord.getAudio());
             }
         });
     }
@@ -254,7 +258,7 @@ public class CrossWordFragment extends Fragment {
                 currentSelectWord = getEnglishWord(word);
                 wordInput.setItemCount(currentWordLength);
                 suggestLayout.setVisibility(View.VISIBLE);
-                SoundPlayer.getInstance().prepareMedia(currentSelectWord.getAudio());
+                getMedia.execute(currentSelectWord.getAudio());
                 //alphabetAdapter.setWord(currentSelectWord.getWord());
                 //alphabetAdapter.notifyDataSetChanged();
 
@@ -292,7 +296,7 @@ public class CrossWordFragment extends Fragment {
         wordInput.setBackgroundColor(Color.GREEN);
         meanning.setVisibility(View.VISIBLE);
         meanning.setText(currentSelectWord.getMean());
-        SoundPlayer.getInstance().playMedia();
+        SoundPlayer.getInstance().playMedia(currentSelectWord.getAudio());
         playSound.setVisibility(View.VISIBLE);
 
         Handler handler = new Handler();
@@ -465,6 +469,7 @@ public class CrossWordFragment extends Fragment {
         for (EnglishWord word: order) {
             if (crossWord.addWord(word.getWord()) != -1) {
                 added.add(word);
+                //SoundPlayer.getInstance().addMedia(word.getAudio());
             }
         }
     }
