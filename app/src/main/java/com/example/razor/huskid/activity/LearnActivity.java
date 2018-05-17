@@ -20,6 +20,7 @@ import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import mehdi.sakout.fancybuttons.FancyButton;
 import yanzhikai.textpath.AsyncTextPathView;
 import yanzhikai.textpath.SyncTextPathView;
 
@@ -40,8 +41,8 @@ public class LearnActivity extends AppCompatActivity {
     @BindView(R.id.word)
     AsyncTextPathView word;
 
-//    @BindView(R.id.play_sound)
-//    ImageButton playSound;
+    @BindView(R.id.play_sound)
+    ImageButton playSound;
 
     @BindView(R.id.next)
     ImageButton next;
@@ -89,12 +90,12 @@ public class LearnActivity extends AppCompatActivity {
             }
         });
 
-//        playSound.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                SoundPlayer.getInstance().playMedia(currentWord.getAudio());
-//            }
-//        });
+        playSound.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                SoundPlayer.getInstance().playMedia(currentWord.getAudio());
+            }
+        });
 
         next.setOnClickListener(new View.OnClickListener() {
             @Override

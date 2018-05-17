@@ -105,15 +105,15 @@ public class HomeActivity extends AppCompatActivity {
                     @Override
                     public void onClick(View v) {
                         View gameMode = v.getRootView().findViewById(R.id.game_mode);
-                        View btnLearn = v.getRootView().findViewById(R.id.btnLearn);
+                        View learnLayout = v.getRootView().findViewById(R.id.popup_learn_layout);
                         if (gameLevelOpen) {
                             gameMode.setVisibility(View.GONE);
-                            btnLearn.setVisibility(View.VISIBLE);
+                            learnLayout.setVisibility(View.VISIBLE);
                             gameLevelOpen = false;
                             return;
                         }
                         gameMode.setVisibility(View.VISIBLE);
-                        btnLearn.setVisibility(View.GONE);
+                        learnLayout.setVisibility(View.GONE);
                         gameLevelOpen = true;
                     }
                 }, R.id.btnPlay)
