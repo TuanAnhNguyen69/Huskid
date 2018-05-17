@@ -60,29 +60,15 @@ public class TileAdapter extends ArrayAdapter<Tile> {
         Tile tile = tiles.get(position);
 
         if (tile != null) {
-            if (tile.getHorizontalNumber() > 0) {
-                viewHolder.horizontalNumber.setText(Integer.toString(tile.getHorizontalNumber()));
-            }
-
-            if (tile.getVerticalNumber() > 0) {
-                viewHolder.verticalNumber.setText(Integer.toString(tile.getVerticalNumber()));
-            }
-
             if (tile.getVerticalNumber() > 0 && tile.getHorizontalNumber() > 0) {
-                viewHolder.character.setBackgroundColor(Color.RED);
+                viewHolder.character.setBackgroundResource(R.drawable.tile_both_bg);
             } else if (tile.getHorizontalNumber() > 0 || tile.getVerticalNumber() > 0) {
-                viewHolder.character.setBackgroundColor(Color.YELLOW);
-            } else {
-                viewHolder.character.setBackgroundColor(Color.GRAY);
-            }
-
-            if (tile.isSelected()) {
-                viewHolder.character.setBackgroundColor(Color.CYAN);
+                viewHolder.character.setBackgroundResource(R.drawable.tile_un_show_bg);
             }
 
             if (tile.isShow()) {
                 viewHolder.character.setText(tile.getCharacter().toString());
-                viewHolder.character.setBackgroundColor(Color.GREEN);
+                viewHolder.character.setBackgroundResource(R.drawable.tile_un_show_bg);
             }
         }
 

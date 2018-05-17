@@ -18,15 +18,18 @@ import android.widget.AdapterView;
 import android.widget.GridView;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.ListView;
 import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.chaos.view.PinView;
 import com.example.razor.huskid.GlideApp;
 import com.example.razor.huskid.R;
 import com.example.razor.huskid.adapter.AlphabetAdapter;
 import com.example.razor.huskid.adapter.TileAdapter;
+import com.example.razor.huskid.adapter.WordTableAdapter;
 import com.example.razor.huskid.entity.CrossWord;
 import com.example.razor.huskid.entity.EnglishWord;
 import com.example.razor.huskid.entity.GetMedia;
@@ -36,6 +39,7 @@ import com.example.razor.huskid.helper.SoundPlayer;
 import com.example.razor.huskid.helper.Utils;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Random;
 
 import butterknife.BindView;
@@ -106,15 +110,24 @@ public class CrossWordFragment extends Fragment {
     @BindView(R.id.reset)
     ImageButton reset;
 
+    @BindView(R.id.horizontal_word)
+    GridView horizontalWordsListView;
+
+    @BindView(R.id.board_layout)
+    ConstraintLayout boardLayout;
+
     private int height;
     private String topic;
 
     ArrayList<EnglishWord> words;
     ArrayList<EnglishWord> order;
     ArrayList<EnglishWord> added;
+    ArrayList<EnglishWord> horizontal;
+    ArrayList<String> vertical;
     ArrayList<Tile> tiles;
     CrossWord crossWord;
     TileAdapter tileAdapter;
+    WordTableAdapter wordTableAdapter;
 
     StringBuilder currentInputWord;
     int currentWordLength;
@@ -170,10 +183,16 @@ public class CrossWordFragment extends Fragment {
         genCrossWord();
         genTiles();
         initBoard();
+        initWordsList();
         initInput();
         initSuggest();
-
         return rooView;
+    }
+
+    private void initWordsList() {
+        horizontal = new ArrayList<>();
+        wordTableAdapter = new WordTableAdapter(getContext(), horizontal);
+        horizontalWordsListView.setAdapter(wordTableAdapter);
     }
 
     private void initSuggest() {
@@ -183,9 +202,11 @@ public class CrossWordFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 suggestLayout.setVisibility(GONE);
+                boardLayout.setVisibility(View.VISIBLE);
                 SoundPlayer.getInstance().stopMedia();
                 meanning.setVisibility(GONE);
                 playSound.setVisibility(GONE);
+                exitSuggest.setVisibility(View.INVISIBLE);
                 resetInput();
             }
         });
@@ -249,7 +270,12 @@ public class CrossWordFragment extends Fragment {
         board.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                if (tiles.get(position).getVerticalNumber() <= 0 && tiles.get(position).getHorizontalNumber() <=0) {
+                Tile tile = tiles.get(position);
+                if (tiles.get(position).getVerticalNumber() == 0 && tiles.get(position).getHorizontalNumber() == 0) {
+                    return;
+                }
+
+                if (tiles.get(position).isShow()) {
                     return;
                 }
 
@@ -258,7 +284,13 @@ public class CrossWordFragment extends Fragment {
                 currentSelectWord = getEnglishWord(word);
                 wordInput.setItemCount(currentWordLength);
                 suggestLayout.setVisibility(View.VISIBLE);
+                boardLayout.setVisibility(View.INVISIBLE);
+                getMedia.cancel(true);
+                getMedia = new GetMedia();
                 getMedia.execute(currentSelectWord.getAudio());
+                exitSuggest.setVisibility(View.VISIBLE);
+                wordInput.getText().clear();
+
                 //alphabetAdapter.setWord(currentSelectWord.getWord());
                 //alphabetAdapter.notifyDataSetChanged();
 
@@ -284,12 +316,17 @@ public class CrossWordFragment extends Fragment {
     private void checkResult() {
         if (currentInputWord.toString().equalsIgnoreCase(currentSelectWord.getWord())) {
             showCorrect();
+            if (horizontal.size() == added.size()) {
+                showComplete();
+            }
         } else {
             showError();
         }
-
-        wordInput.getText().clear();
         currentInputWord = new StringBuilder();
+    }
+
+    private void showComplete() {
+        Toast.makeText(getContext(), "Win", Toast.LENGTH_LONG).show();
     }
 
     private void showCorrect() {
@@ -298,6 +335,8 @@ public class CrossWordFragment extends Fragment {
         meanning.setText(currentSelectWord.getMean());
         SoundPlayer.getInstance().playMedia(currentSelectWord.getAudio());
         playSound.setVisibility(View.VISIBLE);
+        horizontal.add(currentSelectWord);
+        wordTableAdapter.notifyDataSetChanged();
 
         Handler handler = new Handler();
         handler.postDelayed(new Runnable() {

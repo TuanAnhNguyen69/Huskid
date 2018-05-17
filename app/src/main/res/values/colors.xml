@@ -20,7 +20,7 @@
     <color name="colorIntro">#e97274</color>
     <color name="colorGray">#808080</color>
     <color name="colorInActiveIndicator">#F29D9E</color>
-    <color name="colorActiveIndicator">#E97274</color>
+    <color name="colorActiveIndicator">#e97274</color>
     <color name="colorBlack">#000000</color>
     <color name="colorBackground">#fafafa</color>
     <color name="colorPink">#FF0066</color>
