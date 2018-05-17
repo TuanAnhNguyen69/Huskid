@@ -21,7 +21,7 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import yanzhikai.textpath.AsyncTextPathView;
-import yanzhikai.textpath.PathAnimatorListener;
+import yanzhikai.textpath.SyncTextPathView;
 
 
 import static com.example.razor.huskid.activity.HomeActivity.TOPIC;
@@ -40,14 +40,22 @@ public class LearnActivity extends AppCompatActivity {
     @BindView(R.id.word)
     AsyncTextPathView word;
 
-    @BindView(R.id.play_sound)
-    ImageButton playSound;
+//    @BindView(R.id.play_sound)
+//    ImageButton playSound;
+
+    @BindView(R.id.next)
+    ImageButton next;
+
+    @BindView(R.id.pre)
+    ImageButton pre;
+
 
     SlideAdapter slideAdapter;
     String topic;
     List<EnglishWord> words;
     EnglishWord currentWord;
     GetMedia getMedia;
+    int currentPos;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -58,6 +66,7 @@ public class LearnActivity extends AppCompatActivity {
         words = DatabaseHelper.getInstance().getTopicWords(topic);
         slideAdapter = new SlideAdapter(this, words);
         topicName.setText(topic.toUpperCase());
+        currentPos = 0;
         getMedia = new GetMedia();
         initInfor(0);
         pager.setAdapter(slideAdapter);
@@ -69,6 +78,7 @@ public class LearnActivity extends AppCompatActivity {
 
             @Override
             public void onPageSelected(int position) {
+                currentPos = position;
                 initInfor(position);
 
             }
@@ -79,32 +89,31 @@ public class LearnActivity extends AppCompatActivity {
             }
         });
 
-        playSound.setOnClickListener(new View.OnClickListener() {
+//        playSound.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                SoundPlayer.getInstance().playMedia(currentWord.getAudio());
+//            }
+//        });
+
+        next.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                SoundPlayer.getInstance().playMedia(currentWord.getAudio());
+                pager.setCurrentItem(currentPos + 1);
             }
         });
 
-//        word.getAnimation().setAnimationListener(new Animation.AnimationListener() {
-//            @Override
-//            public void onAnimationStart(Animation animation) {
-//
-//            }
-//
-//            @Override
-//            public void onAnimationEnd(Animation animation) {
-//                playSound.setImageDrawable(getResources().getDrawable(R.drawable.ic_check_in));
-//            }
-//
-//            @Override
-//            public void onAnimationRepeat(Animation animation) {
-//
-//            }
-//        });
+        pre.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                pager.setCurrentItem(currentPos - 1);
+            }
+        });
     }
 
     public void initInfor(int pos) {
+        getMedia.cancel(true);
+        getMedia = new GetMedia();
         currentWord = words.get(pos);
         meaning.setText(currentWord.getMean().toUpperCase());
         word.setText(currentWord.getWord().toUpperCase());
@@ -113,8 +122,6 @@ public class LearnActivity extends AppCompatActivity {
         if (pos == 0) {
             getMedia.execute(words.get(pos).getAudio(), words.get(pos + 1).getAudio());
         } else if (pos != words.size() - 1) {
-            getMedia.cancel(true);
-            getMedia = new GetMedia();
             getMedia.execute(words.get(pos + 1).getAudio());
         } else {
             return;

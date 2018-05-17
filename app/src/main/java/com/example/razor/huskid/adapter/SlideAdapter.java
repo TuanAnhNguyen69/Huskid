@@ -9,6 +9,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 
 import com.example.razor.huskid.GlideApp;
@@ -45,10 +46,12 @@ public class SlideAdapter extends PagerAdapter {
         @SuppressLint("ViewHolder")
         View rootView = LayoutInflater.from(context).inflate(R.layout.slider, container, false);
         ImageView imageView = rootView.findViewById(R.id.img_slider);
+
         if (words.get(position) != null) {
             GlideApp.with(context).load(words.get(position).getImage()).fitCenter().into(imageView);
         }
         container.addView(rootView);
+
         return rootView;
     }
 
