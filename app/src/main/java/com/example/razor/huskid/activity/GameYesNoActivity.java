@@ -83,7 +83,7 @@ public class GameYesNoActivity extends AppCompatActivity {
         yn_describe.setText("This is " + uselist.get(0).getWord());
 
         GlideApp.with(getApplicationContext()).load(uselist.get(0).getImage()).into(yn_image);
-
+        //Commit lại
 
 
     }
