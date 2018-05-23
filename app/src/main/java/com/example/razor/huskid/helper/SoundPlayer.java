@@ -16,6 +16,7 @@ public class SoundPlayer{
         return ourInstance;
     }
     private MediaPlayer mediaPlayer;
+    private MediaPlayer backgroundMediaPlayer;
     private HashMap<String, MediaPlayer> mediaList;
 
     private SoundPlayer() {
@@ -36,6 +37,32 @@ public class SoundPlayer{
             mediaPlayer.stop();
         }
     }
+
+    public void prepairBackgroundMedia(Context context, int resID) {
+        MediaPlayer localMediaPlayer = MediaPlayer.create(context, resID);
+        backgroundMediaPlayer = localMediaPlayer;
+        backgroundMediaPlayer.setLooping(true);
+    }
+
+    public void stopBackgroundMedia() {
+        if (backgroundMediaPlayer.isPlaying()) {
+            backgroundMediaPlayer.stop();
+        }
+    }
+
+    public void pauseBackgroundMedia() {
+        if (backgroundMediaPlayer.isPlaying()) {
+            backgroundMediaPlayer.pause();
+        }
+    }
+
+    public void playBackgroundMedia() {
+        if (!backgroundMediaPlayer.isPlaying()) {
+            backgroundMediaPlayer.start();
+        }
+    }
+
+
 
     public void addMedia(HashMap<String, MediaPlayer> mediaLinks) {
         mediaList.putAll(mediaLinks);

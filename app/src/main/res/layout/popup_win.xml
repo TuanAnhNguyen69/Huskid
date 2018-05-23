@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:fancy="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/submitPopup"
+    android:layout_width="260dp"
+    android:layout_height="wrap_content"
+    android:layout_gravity="center"
+    android:layout_marginLeft="30dp"
+    android:layout_marginRight="30dp"
+    android:background="@drawable/popup_bg"
+    android:columnCount="2"
+    android:numColumns="2"
+    android:padding="4dp"
+
+    android:scrollbars="none"
+    android:stretchMode="columnWidth"
+    android:visibility="visible">
+
+
+
+</android.support.constraint.ConstraintLayout>

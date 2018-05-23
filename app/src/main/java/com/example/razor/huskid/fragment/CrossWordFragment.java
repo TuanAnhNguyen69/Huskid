@@ -3,22 +3,20 @@ package com.example.razor.huskid.fragment;
 import android.content.Context;
 import android.graphics.Color;
 import android.net.Uri;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.constraint.ConstraintLayout;
-import android.support.constraint.ConstraintSet;
 import android.support.v4.app.Fragment;
-import android.text.Editable;
-import android.text.TextWatcher;
+import android.util.DisplayMetrics;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.Button;
 import android.widget.GridView;
 import android.widget.ImageButton;
 import android.widget.ImageView;
-import android.widget.ListView;
+import android.widget.RelativeLayout;
 import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
@@ -27,7 +25,6 @@ import android.widget.Toast;
 import com.chaos.view.PinView;
 import com.example.razor.huskid.GlideApp;
 import com.example.razor.huskid.R;
-import com.example.razor.huskid.adapter.AlphabetAdapter;
 import com.example.razor.huskid.adapter.TileAdapter;
 import com.example.razor.huskid.adapter.WordTableAdapter;
 import com.example.razor.huskid.entity.CrossWord;
@@ -39,12 +36,10 @@ import com.example.razor.huskid.helper.SoundPlayer;
 import com.example.razor.huskid.helper.Utils;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Random;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import mehdi.sakout.fancybuttons.FancyButton;
 
 import static android.view.View.GONE;
 
@@ -85,9 +80,6 @@ public class CrossWordFragment extends Fragment {
     @BindView(R.id.suggest)
     ConstraintLayout suggestLayout;
 
-    @BindView(R.id.meanning)
-    TextView meanning;
-
     @BindView(R.id.sugggestImage)
     ImageView suggestImage;
 
@@ -99,10 +91,6 @@ public class CrossWordFragment extends Fragment {
 
     @BindView(R.id.exit)
     ImageView exitSuggest;
-
-
-    @BindView(R.id.play_sound)
-    ImageView playSound;
 
     @BindView(R.id.check)
     ImageButton check;
@@ -201,13 +189,7 @@ public class CrossWordFragment extends Fragment {
 
             @Override
             public void onClick(View v) {
-                suggestLayout.setVisibility(GONE);
-                boardLayout.setVisibility(View.VISIBLE);
-                SoundPlayer.getInstance().stopMedia();
-                meanning.setVisibility(GONE);
-                playSound.setVisibility(GONE);
-                exitSuggest.setVisibility(View.INVISIBLE);
-                resetInput();
+               exitSuggest();
             }
         });
 
@@ -215,13 +197,6 @@ public class CrossWordFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 //Do nothing
-            }
-        });
-
-        playSound.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                SoundPlayer.getInstance().playMedia(currentSelectWord.getAudio());
             }
         });
     }
@@ -256,21 +231,30 @@ public class CrossWordFragment extends Fragment {
     }
 
     private void initBoard() {
+
+        DisplayMetrics displayMetrics = new DisplayMetrics();
+        getActivity().getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
+        int width = displayMetrics.widthPixels;
+        RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(height * (width/12),
+                height * (width/12));
+        int margin = Utils.convertDpToPixel(10, getContext());
         tileAdapter = new TileAdapter(getContext(), tiles);
-        ConstraintLayout.LayoutParams params = new ConstraintLayout.LayoutParams(height * Utils.convertDpToPixel(40, getContext()),
-                height * Utils.convertDpToPixel(40, getContext()));
-        ConstraintSet constraintSet = new ConstraintSet();
-        constraintSet.centerHorizontally(R.id.board, R.id.parent);
-        constraintSet.centerVertically(R.id.board, R.id.parent);
-        constraintSet.constrainHeight(R.id.board, height * Utils.convertDpToPixel(40, getContext()));
-        constraintSet.constrainWidth(R.id.board,  height * Utils.convertDpToPixel(40, getContext()));
-        constraintSet.applyTo(parent);
+        params.setMargins(margin, margin, margin, margin);
+        params.addRule(RelativeLayout.CENTER_IN_PARENT, RelativeLayout.TRUE);
+
+
+//        ConstraintSet constraintSet = new ConstraintSet();
+//        constraintSet.centerHorizontally(R.id.board, R.id.parent);
+//        constraintSet.centerVertically(R.id.board, R.id.parent);
+//        constraintSet.constrainHeight(R.id.board, height * Utils.convertDpToPixel(40, getContext()));
+//        constraintSet.constrainWidth(R.id.board,  height * Utils.convertDpToPixel(40, getContext()));
+//        constraintSet.applyTo(parent);
+        board.setLayoutParams(params);
         board.setNumColumns(height);
         board.setAdapter(tileAdapter);
         board.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Tile tile = tiles.get(position);
                 if (tiles.get(position).getVerticalNumber() == 0 && tiles.get(position).getHorizontalNumber() == 0) {
                     return;
                 }
@@ -290,6 +274,7 @@ public class CrossWordFragment extends Fragment {
                 getMedia.execute(currentSelectWord.getAudio());
                 exitSuggest.setVisibility(View.VISIBLE);
                 wordInput.getText().clear();
+                currentInputWord = new StringBuilder();
 
                 //alphabetAdapter.setWord(currentSelectWord.getWord());
                 //alphabetAdapter.notifyDataSetChanged();
@@ -331,10 +316,7 @@ public class CrossWordFragment extends Fragment {
 
     private void showCorrect() {
         wordInput.setBackgroundColor(Color.GREEN);
-        meanning.setVisibility(View.VISIBLE);
-        meanning.setText(currentSelectWord.getMean());
         SoundPlayer.getInstance().playMedia(currentSelectWord.getAudio());
-        playSound.setVisibility(View.VISIBLE);
         horizontal.add(currentSelectWord);
         wordTableAdapter.notifyDataSetChanged();
 
@@ -344,14 +326,24 @@ public class CrossWordFragment extends Fragment {
             public void run() {
                 wordInput.setBackgroundColor(Color.WHITE);
                 showWord();
+                exitSuggest();
 
             }
         }, 500);
     }
 
+    private void exitSuggest() {
+        suggestLayout.setVisibility(GONE);
+        boardLayout.setVisibility(View.VISIBLE);
+        SoundPlayer.getInstance().stopMedia();
+        exitSuggest.setVisibility(View.INVISIBLE);
+        resetInput();
+    }
+
     private void showError() {
         wordInput.setBackgroundColor(Color.RED);
-
+        int resID = getResources().getIdentifier("wrong", "raw", getContext().getPackageName());
+        SoundPlayer.getInstance().playMedia(getContext(), resID);
         Handler handler = new Handler();
         handler.postDelayed(new Runnable() {
             @Override
@@ -549,20 +541,21 @@ public class CrossWordFragment extends Fragment {
         mListener = null;
     }
 
-    public FancyButton createButton(final Character letter) {
-        FancyButton fancyButton = new FancyButton(getContext());
+    public Button createButton(final Character letter) {
+        DisplayMetrics displayMetrics = new DisplayMetrics();
+        getActivity().getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
+        int width = displayMetrics.widthPixels;
         TableRow.LayoutParams params = new TableRow.LayoutParams();
-        params.width = Utils.convertDpToPixel(30,getContext());
-        params.height = Utils.convertDpToPixel(40,getContext());
-        int margin = Utils.convertDpToPixel(5, getContext());
+        params.width = (width/120) * 8;
+        params.height = (int) (params.width * 1.5);
+        int margin = (width/120);
         params.setMargins(margin, margin, margin, margin);
+        Button fancyButton = new Button(getContext());
         fancyButton.setLayoutParams(params);
         fancyButton.setText(letter.toString());
-        fancyButton.setBorderColor(Color.BLACK);
-        fancyButton.setBackgroundColor(Color.RED);
-        fancyButton.setRadius(Utils.convertDpToPixel(2, getContext()));
-        fancyButton.setBorderWidth(Utils.convertDpToPixel(2, getContext()));
-        fancyButton.setTextSize(18);
+        fancyButton.setTextColor(Color.WHITE);
+        fancyButton.setBackgroundResource(R.drawable.key_bg);
+        fancyButton.setTextSize((int) Utils.pixelsToSp(getContext(), (params.width / 10) * 8));
         fancyButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

@@ -39,7 +39,7 @@ public class LearnActivity extends AppCompatActivity {
     TextView meaning;
 
     @BindView(R.id.word)
-    AsyncTextPathView word;
+    TextView word;
 
     @BindView(R.id.play_sound)
     ImageButton playSound;
@@ -118,7 +118,6 @@ public class LearnActivity extends AppCompatActivity {
         currentWord = words.get(pos);
         meaning.setText(currentWord.getMean().toUpperCase());
         word.setText(currentWord.getWord().toUpperCase());
-        word.startAnimation(0, 1);
 
         if (pos == 0) {
             getMedia.execute(words.get(pos).getAudio(), words.get(pos + 1).getAudio());

@@ -5,20 +5,16 @@ import android.support.constraint.ConstraintLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.Gravity;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.ListView;
-import android.widget.PopupWindow;
-import android.widget.RelativeLayout;
-import android.widget.Toast;
 
 import com.example.razor.huskid.R;
 import com.example.razor.huskid.adapter.TopicsAdapter;
-import com.example.razor.huskid.entity.Topic;
 import com.example.razor.huskid.helper.DatabaseHelper;
+import com.example.razor.huskid.helper.SoundPlayer;
+import com.example.razor.huskid.helper.Storage;
 import com.kyleduo.blurpopupwindow.library.BlurPopupWindow;
 
 import butterknife.BindView;
@@ -28,6 +24,7 @@ public class HomeActivity extends AppCompatActivity {
 
     public static final String TOPIC = "topic";
     public static final String LEVEL = "level";
+    public static final String BG_SOUND = "bgsound";
 
     @BindView(R.id.topicList)
     ListView topicListView;
@@ -47,12 +44,14 @@ public class HomeActivity extends AppCompatActivity {
     private TopicsAdapter topicsAdapter;
     boolean settingOpen;
     boolean gameLevelOpen;
+    Storage storage;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
         ButterKnife.bind(this);
+        storage = new Storage(this);
         initTopicList();
         settingOpen = false;
         gameLevelOpen = false;
@@ -76,6 +75,44 @@ public class HomeActivity extends AppCompatActivity {
                 settingOpen =true;
             }
         });
+
+        mute.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (storage.get(BG_SOUND).equals("ON")) {
+                    mute.setImageResource(R.drawable.music_off);
+                    SoundPlayer.getInstance().pauseBackgroundMedia();
+                    storage.set(BG_SOUND, "OFF");
+                    return;
+                }
+
+                mute.setImageResource(R.drawable.music_on);
+                SoundPlayer.getInstance().playBackgroundMedia();
+                storage.set(BG_SOUND, "ON");
+            }
+        });
+
+
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        SoundPlayer.getInstance().pauseBackgroundMedia();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        int resID = getResources().getIdentifier("bgm1", "raw", getPackageName());
+        SoundPlayer.getInstance().prepairBackgroundMedia(this, resID);
+        if (!storage.get(BG_SOUND).equals("OFF")) {
+            SoundPlayer.getInstance().playBackgroundMedia();
+            storage.set(BG_SOUND, "ON");
+            return;
+        }
+
+        mute.setImageResource(R.drawable.music_off);
     }
 
     private void initTopicList() {
@@ -93,17 +130,23 @@ public class HomeActivity extends AppCompatActivity {
     }
 
     public void onButtonClick(final String topic) {
+        int resID = getResources().getIdentifier("click", "raw", getPackageName());
+        SoundPlayer.getInstance().playMedia(this, resID);
         BlurPopupWindow builder = new BlurPopupWindow.Builder(this)
-                .setContentView(R.layout.popup_window)
+                .setContentView(R.layout.popup_topic)
                 .bindClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
+                        int resID = getResources().getIdentifier("click", "raw", v.getContext().getPackageName());
+                        SoundPlayer.getInstance().playMedia(v.getContext(), resID);
                         gotoLearn(topic);
                     }
                 }, R.id.btnLearn)
                 .bindClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
+                        int resID = getResources().getIdentifier("click", "raw", v.getContext().getPackageName());
+                        SoundPlayer.getInstance().playMedia(v.getContext(), resID);
                         View gameMode = v.getRootView().findViewById(R.id.game_mode);
                         View learnLayout = v.getRootView().findViewById(R.id.popup_learn_layout);
                         if (gameLevelOpen) {
@@ -120,12 +163,16 @@ public class HomeActivity extends AppCompatActivity {
                 .bindClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
+                        int resID = getResources().getIdentifier("click", "raw", v.getContext().getPackageName());
+                        SoundPlayer.getInstance().playMedia(v.getContext(), resID);
                         gotoGame(topic, 8);
                     }
                 }, R.id.normal)
                 .bindClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
+                        int resID = getResources().getIdentifier("click", "raw", v.getContext().getPackageName());
+                        SoundPlayer.getInstance().playMedia(v.getContext(), resID);
                         gotoGame(topic, 10);
                     }
                 }, R.id.hard)
