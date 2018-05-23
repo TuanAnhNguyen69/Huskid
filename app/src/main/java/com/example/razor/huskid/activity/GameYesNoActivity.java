@@ -62,7 +62,6 @@ public class GameYesNoActivity extends AppCompatActivity {
     @BindView(R.id.yn_bt_no)
     Button yn_bt_no;
 
-    AlertDialog dialog;
 
     SlideAdapter slideAdapter;
     EnglishWord rightWord;
@@ -71,7 +70,6 @@ public class GameYesNoActivity extends AppCompatActivity {
     List<EnglishWord> uselist;
     String topic;
     static int x = -1;
-    boolean result;
     int exececise = x+1;
     int scores = 0;
 
@@ -103,9 +101,9 @@ public class GameYesNoActivity extends AppCompatActivity {
             Log.d("aaa", ""+prilist.get(rd).getWord());
             prilist.remove(rd);
         }
-        yn_describe.setText("This is " + uselist.get(0).getWord());
 
-        GlideApp.with(getApplicationContext()).load(uselist.get(0).getImage()).into(yn_image);
+
+
 
 
 
@@ -208,7 +206,10 @@ public class GameYesNoActivity extends AppCompatActivity {
 
 
 
+
     }
+
+
 
     public void showDialog(){
         AlertDialog.Builder builder = new AlertDialog.Builder(this);

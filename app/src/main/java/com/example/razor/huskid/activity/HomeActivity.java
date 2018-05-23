@@ -120,13 +120,19 @@ public class HomeActivity extends AppCompatActivity {
                 .bindClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        gotoGame(topic, 8);
+                        gotoGameYesNo(topic);
+                    }
+                }, R.id.easy)
+                .bindClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        gotoChoice(topic);
                     }
                 }, R.id.normal)
                 .bindClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        gotoGameYesNo(topic);
+                        gotoGame(topic, 8);
                     }
                 }, R.id.hard)
                 .setGravity(Gravity.CENTER)
@@ -148,6 +154,12 @@ public class HomeActivity extends AppCompatActivity {
         Intent intent = new Intent(HomeActivity.this, GameYesNoActivity.class);
                 intent.putExtra(TOPIC, topic);
                 startActivity(intent);
+    }
+
+    public void gotoChoice(String topic){
+        Intent intent = new Intent(HomeActivity.this, GameChoice.class);
+        intent.putExtra(TOPIC, topic);
+        startActivity(intent);
     }
 
     public void gotoGame(String topic, int level) {

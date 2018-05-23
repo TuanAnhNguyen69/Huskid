@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <TextView
+        android:id="@+id/choice_title"
+        android:text="Choice"
+        android:textSize="40sp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="30dp"
+        android:gravity="right">
+
+        <TextView
+            android:id="@+id/choice_scores"
+            android:text="x"
+            android:textSize="20sp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="right"/>
+
+        <TextView
+            android:text="/"
+            android:textSize="20sp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="5dp"
+            android:layout_marginLeft="5dp"/>
+
+        <TextView
+            android:id="@+id/choice_exe"
+            android:text="y"
+            android:textSize="20sp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="right"/>
+    </LinearLayout>
+
+    <ImageView
+        android:id="@+id/choice_imgage"
+        android:layout_width="250dp"
+        android:layout_height="250dp"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="20dp"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="100dp"
+        android:gravity="center">
+
+        <Button
+            android:id="@+id/choice_bt1"
+            android:text="1"
+            android:textSize="20sp"
+            android:layout_width="150dp"
+            android:layout_height="80dp"
+            android:layout_gravity="center"
+            android:layout_marginRight="10dp"/>
+
+        <Button
+            android:id="@+id/choice_bt2"
+            android:text="2"
+            android:textSize="20sp"
+            android:layout_width="150dp"
+            android:layout_height="80dp"
+            android:layout_gravity="center"
+            android:layout_marginLeft="10dp"/>
+
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="100dp"
+        android:gravity="center">
+
+        <Button
+            android:id="@+id/choice_bt3"
+            android:text="3"
+            android:textSize="20sp"
+            android:layout_width="150dp"
+            android:layout_height="80dp"
+            android:layout_gravity="center"
+            android:layout_marginRight="10dp"/>
+
+        <Button
+            android:id="@+id/choice_bt4"
+            android:text="4"
+            android:textSize="20sp"
+            android:layout_width="150dp"
+            android:layout_height="80dp"
+            android:layout_gravity="center"
+            android:layout_marginLeft="10dp"/>
+
+    </LinearLayout>
+
+</LinearLayout>

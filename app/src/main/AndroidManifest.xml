@@ -24,7 +24,8 @@
             </intent-filter>
         </activity>
         <activity android:name=".activity.LearnActivity" />
-        <activity android:name=".activity.GameYesNoActivity"></activity>
+        <activity android:name=".activity.GameYesNoActivity" />
+        <activity android:name=".activity.GameChoice"></activity>
     </application>
 
 </manifest>
