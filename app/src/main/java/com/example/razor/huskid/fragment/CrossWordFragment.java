@@ -311,7 +311,7 @@ public class CrossWordFragment extends Fragment {
     }
 
     private void showComplete() {
-        Toast.makeText(getContext(), "Win", Toast.LENGTH_LONG).show();
+        mListener.buildWinLayout();
     }
 
     private void showCorrect() {
@@ -329,7 +329,7 @@ public class CrossWordFragment extends Fragment {
                 exitSuggest();
 
             }
-        }, 500);
+        }, 2000);
     }
 
     private void exitSuggest() {
@@ -585,5 +585,6 @@ public class CrossWordFragment extends Fragment {
      */
     public interface OnFragmentInteractionListener {
         // TODO: Update argument type and name
+        void buildWinLayout();
     }
 }

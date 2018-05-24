@@ -12,10 +12,13 @@ import android.support.v4.app.FragmentTransaction;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.Gravity;
+import android.view.View;
 
 import com.example.razor.huskid.R;
 
 import com.example.razor.huskid.fragment.CrossWordFragment;
+import com.kyleduo.blurpopupwindow.library.BlurPopupWindow;
 
 import static com.example.razor.huskid.activity.HomeActivity.LEVEL;
 import static com.example.razor.huskid.activity.HomeActivity.TOPIC;
@@ -25,6 +28,8 @@ public class GameActivity extends AppCompatActivity implements
         CrossWordFragment.OnFragmentInteractionListener {
 
     CrossWordFragment crossWordFragment;
+    BlurPopupWindow exitBuilder;
+    BlurPopupWindow winBuilder;
 
     @RequiresApi(api = Build.VERSION_CODES.M)
     @Override
@@ -32,6 +37,50 @@ public class GameActivity extends AppCompatActivity implements
     {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_game);
+
+        exitBuilder = new BlurPopupWindow.Builder(this)
+            .setContentView(R.layout.popup_exit)
+            .bindClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    exitBuilder.dismiss();
+                }
+            }, R.id.no)
+            .bindClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    exit();
+                }
+            }, R.id.yes)
+            .setGravity(Gravity.CENTER)
+            .setScaleRatio(0.2f)
+            .setBlurRadius(10)
+            .setTintColor(0x30000000)
+            .build();
+
+        winBuilder = new BlurPopupWindow.Builder(this)
+                .setContentView(R.layout.popup_win)
+                .bindClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        crossWordFragment.onDetach();
+                        crossWordFragment = CrossWordFragment.newInstance(getIntent().getIntExtra(LEVEL, 8), getIntent().getStringExtra(TOPIC));
+                        attachFragment(crossWordFragment);
+                        winBuilder.dismiss();
+                    }
+                }, R.id.again)
+                .bindClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        exit();
+                    }
+                }, R.id.exit)
+                .setGravity(Gravity.CENTER)
+                .setScaleRatio(0.2f)
+                .setBlurRadius(10)
+                .setTintColor(0x30000000)
+                .build();
+
         crossWordFragment = CrossWordFragment.newInstance(getIntent().getIntExtra(LEVEL, 8), getIntent().getStringExtra(TOPIC));
         attachFragment(crossWordFragment);
     }
@@ -72,5 +121,31 @@ public class GameActivity extends AppCompatActivity implements
         fragmentTransaction.replace(R.id.fragment_holder, crossWordFragment);
         fragmentTransaction.addToBackStack(null);
         fragmentTransaction.commit();
+    }
+
+    @Override
+    public void onBackPressed() {
+        buildExitLayout();
+    }
+
+    public void exit() {
+        if (exitBuilder.isShown()) {
+            exitBuilder.dismiss();
+        }
+
+        if (winBuilder.isShown()) {
+            winBuilder.dismiss();
+        }
+        crossWordFragment.onDetach();
+        finish();
+    }
+
+    public void buildExitLayout() {
+        exitBuilder.show();
+    }
+
+    @Override
+    public void buildWinLayout() {
+        winBuilder.show();
     }
 }

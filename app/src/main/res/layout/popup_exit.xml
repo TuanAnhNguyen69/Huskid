@@ -31,7 +31,7 @@
         app:layout_constraintTop_toBottomOf="@+id/textView2">
 
         <mehdi.sakout.fancybuttons.FancyButton
-            android:id="@+id/again"
+            android:id="@+id/no"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_margin="8dp"
@@ -41,13 +41,13 @@
             fancy:fb_defaultColor="#7ab800"
             fancy:fb_focusColor="#9bd823"
             fancy:fb_radius="30dp"
-            fancy:fb_text="Again"
+            fancy:fb_text="No"
             fancy:fb_textColor="#FFFFFF"
             tools:layout_editor_absoluteX="12dp"
             tools:layout_editor_absoluteY="4dp" />
 
         <mehdi.sakout.fancybuttons.FancyButton
-            android:id="@+id/exit"
+            android:id="@+id/yes"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_margin="8dp"
@@ -58,7 +58,7 @@
             fancy:fb_defaultColor="@color/colorFoodTiny"
             fancy:fb_focusColor="#9bd823"
             fancy:fb_radius="30dp"
-            fancy:fb_text="Exit"
+            fancy:fb_text="Yes"
             fancy:fb_textColor="#FFFFFF"
             tools:layout_editor_absoluteX="12dp"
             tools:layout_editor_absoluteY="4dp" />
@@ -72,7 +72,7 @@
         android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
-        android:text="You Won!!!"
+        android:text="Are you sure?"
         android:textSize="24sp"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
