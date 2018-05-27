@@ -116,6 +116,8 @@ public class GameActivity extends AppCompatActivity implements
         setting.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                int resID = getResources().getIdentifier("_click", "raw", getPackageName());
+                SoundPlayer.getInstance().playMedia(GameActivity.this, resID);
                 if (settingOpen) {
                     settingLayout.setBackgroundResource(R.drawable.setting_back);
                     mute.setVisibility(View.INVISIBLE);
@@ -133,6 +135,8 @@ public class GameActivity extends AppCompatActivity implements
         mute.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                int resID = getResources().getIdentifier("_click", "raw", getPackageName());
+                SoundPlayer.getInstance().playMedia(GameActivity.this, resID);
                 if (storage.get(BG_SOUND).equals("ON")) {
                     mute.setImageResource(R.drawable.music_off);
                     SoundPlayer.getInstance().pauseBackgroundMedia();
@@ -149,7 +153,8 @@ public class GameActivity extends AppCompatActivity implements
         about.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //buildShowCase(pager, "Touch", "Touch here to open topic menu");
+                int resID = getResources().getIdentifier("_click", "raw", getPackageName());
+                SoundPlayer.getInstance().playMedia(GameActivity.this, resID);
             }
         });
     }

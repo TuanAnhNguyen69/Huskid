@@ -54,6 +54,7 @@ public class HomeActivity extends AppCompatActivity {
     Storage storage;
     BlurPopupWindow popup;
     ShowcaseView showcaseView;
+    private int showCaseCount;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -63,6 +64,7 @@ public class HomeActivity extends AppCompatActivity {
         storage = new Storage(this);
         initTopicList();
         settingOpen = false;
+        showCaseCount = 0;
         gameLevelOpen = false;
         settingLayout.setBackgroundResource(R.drawable.setting_back);
         mute.setVisibility(View.INVISIBLE);
@@ -71,6 +73,8 @@ public class HomeActivity extends AppCompatActivity {
         setting.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                int resID = getResources().getIdentifier("_click", "raw", getPackageName());
+                SoundPlayer.getInstance().playMedia(HomeActivity.this, resID);
                 if (settingOpen) {
                     settingLayout.setBackgroundResource(R.drawable.setting_back);
                     mute.setVisibility(View.INVISIBLE);
@@ -88,6 +92,8 @@ public class HomeActivity extends AppCompatActivity {
         mute.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                int resID = getResources().getIdentifier("_click", "raw", getPackageName());
+                SoundPlayer.getInstance().playMedia(HomeActivity.this, resID);
                 if (storage.get(BG_SOUND).equals("ON")) {
                     mute.setImageResource(R.drawable.music_off);
                     SoundPlayer.getInstance().pauseBackgroundMedia();
@@ -104,11 +110,13 @@ public class HomeActivity extends AppCompatActivity {
         about.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                buildShowCase(topicListView, "Touch", "Touch here to open topic menu");
+                int resID = getResources().getIdentifier("_click", "raw", getPackageName());
+                SoundPlayer.getInstance().playMedia(HomeActivity.this, resID);
+                buildShowCase(topicListView, "Touch here to open topic menu", "");
             }
         });
 
-        buildFirstShowCase(topicListView, "Touch", "Touch here to open topic menu");
+        buildFirstShowCase(topicListView, "Touch here to open topic menu", "");
     }
 
     private void buildFirstShowCase(View view, String contentTitle, String contentText) {
@@ -117,10 +125,53 @@ public class HomeActivity extends AppCompatActivity {
                 .setTarget(target)
                 .setContentTitle(contentTitle)
                 .setContentText(contentText)
-                .hideOnTouchOutside()
+                .setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        nextShowCase();
+                    }
+                })
+                .blockAllTouches()
                 .setStyle(R.style.CustomShowcaseTheme)
                 .singleShot(1)
                 .build();
+        showcaseView.setButtonText("Next");
+    }
+
+    private void nextShowCase() {
+        switch (showCaseCount) {
+            case 0:
+                showcaseView.setShowcase(new ViewTarget(settingLayout), true);
+                showcaseView.setContentTitle("Touch to open setting");
+                showcaseView.setContentText("");
+                break;
+
+            case 1:
+                settingLayout.setBackgroundResource(R.drawable.setting_back_full);
+                mute.setVisibility(View.VISIBLE);
+                about.setVisibility(View.VISIBLE);
+                settingOpen =true;
+                showcaseView.setShowcase(new ViewTarget(mute), true);
+                showcaseView.setContentTitle("Touch to toggle back ground music");
+                showcaseView.setContentText("");
+                break;
+
+            case 2:
+                showcaseView.setShowcase(new ViewTarget(about), true);
+                showcaseView.setContentTitle("Touch to show this any time you want");
+                showcaseView.setContentText("");
+                break;
+
+            case 3:
+                settingLayout.setBackgroundResource(R.drawable.setting_back);
+                mute.setVisibility(View.INVISIBLE);
+                about.setVisibility(View.INVISIBLE);
+                settingOpen = false;
+                showcaseView.hide();
+                showCaseCount = -1;
+                break;
+        }
+        showCaseCount++;
     }
 
     private void buildShowCase(View view, String contentTitle, String contentText) {
@@ -129,9 +180,16 @@ public class HomeActivity extends AppCompatActivity {
                 .setTarget(target)
                 .setContentTitle(contentTitle)
                 .setContentText(contentText)
-                .hideOnTouchOutside()
+                .blockAllTouches()
+                .setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        nextShowCase();
+                    }
+                })
                 .setStyle(R.style.CustomShowcaseTheme)
                 .build();
+        showcaseView.setButtonText("Next");
     }
 
     @Override
@@ -162,9 +220,6 @@ public class HomeActivity extends AppCompatActivity {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 onButtonClick(topicsAdapter.getItem(position).getName());
-                if (showcaseView.isShowing()) {
-                    showcaseView.hide();
-                }
             }
         });
     }
