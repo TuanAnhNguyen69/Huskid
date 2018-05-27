@@ -112,9 +112,6 @@ public class LearnActivity extends AppCompatActivity {
             public void onPageSelected(int position) {
                 currentPos = position;
                 initInfor(position);
-                int resID = getResources().getIdentifier("_click", "raw", getPackageName());
-                SoundPlayer.getInstance().playMedia(LearnActivity.this, resID);
-
             }
 
             @Override
@@ -144,6 +141,11 @@ public class LearnActivity extends AppCompatActivity {
         next.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                if (currentPos == words.size() - 1) {
+                    int resID = getResources().getIdentifier("_clicknot", "raw", getPackageName());
+                    SoundPlayer.getInstance().playMedia(LearnActivity.this, resID);
+                    return;
+                }
                 pager.setCurrentItem(currentPos + 1);
 
             }
@@ -152,6 +154,12 @@ public class LearnActivity extends AppCompatActivity {
         pre.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                if (currentPos == 0) {
+                    int resID = getResources().getIdentifier("_clicknot", "raw", getPackageName());
+                    SoundPlayer.getInstance().playMedia(LearnActivity.this, resID);
+                    return;
+                }
+
                 pager.setCurrentItem(currentPos - 1);
             }
         });
@@ -233,15 +241,24 @@ public class LearnActivity extends AppCompatActivity {
 
     private void buildFirstShowCase(View view, String contentTitle, String contentText) {
         Target target = new ViewTarget(view);
-        ShowcaseView showcaseView = new ShowcaseView.Builder(this)
+        showcaseView = new ShowcaseView.Builder(this)
                 .setTarget(target)
                 .setContentTitle(contentTitle)
                 .setContentText(contentText)
                 .hideOnTouchOutside()
+                .setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        nextShowCase();
+                    }
+                })
                 .blockAllTouches()
                 .setStyle(R.style.CustomShowcaseTheme)
-                .singleShot(1)
+                .singleShot(2)
                 .build();
+
+        showcaseView.setButtonText("Next");
+        showcaseView.setShouldCentreText(true);
     }
 
     private void buildShowCase(View view, String contentTitle, String contentText) {
@@ -313,6 +330,7 @@ public class LearnActivity extends AppCompatActivity {
             case 5:
                 showcaseView.hide();
                 showCaseCount = -1;
+                showcaseView.setButtonText("Done");
                 break;
         }
         showCaseCount++;

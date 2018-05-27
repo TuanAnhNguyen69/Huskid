@@ -4,7 +4,6 @@ import android.content.Intent;
 import android.os.Build;
 import android.support.annotation.RequiresApi;
 import android.support.constraint.ConstraintLayout;
-import android.support.v4.view.ViewCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.Gravity;
@@ -19,7 +18,6 @@ import com.example.razor.huskid.helper.DatabaseHelper;
 import com.example.razor.huskid.helper.SoundPlayer;
 import com.example.razor.huskid.helper.Storage;
 import com.github.amlcurran.showcaseview.ShowcaseView;
-import com.github.amlcurran.showcaseview.targets.ActionViewTarget;
 import com.github.amlcurran.showcaseview.targets.Target;
 import com.github.amlcurran.showcaseview.targets.ViewTarget;
 import com.kyleduo.blurpopupwindow.library.BlurPopupWindow;
@@ -169,6 +167,8 @@ public class HomeActivity extends AppCompatActivity {
                 settingOpen = false;
                 showcaseView.hide();
                 showCaseCount = -1;
+                showcaseView.setButtonText("Done");
+
                 break;
         }
         showCaseCount++;
@@ -288,7 +288,7 @@ public class HomeActivity extends AppCompatActivity {
     }
 
     public void gotoGame(String topic, int level) {
-        Intent intent = new Intent(HomeActivity.this, GameActivity.class);
+        Intent intent = new Intent(HomeActivity.this, CrossWordGameActivity.class);
         intent.putExtra(TOPIC, topic);
         intent.putExtra(LEVEL, level);
         startActivity(intent);
