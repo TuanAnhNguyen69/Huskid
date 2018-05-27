@@ -37,7 +37,8 @@ public class WordTableAdapter extends ArrayAdapter<EnglishWord> {
             playsound.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    SoundPlayer.getInstance().playMedia(englishWord.getAudio());
+                    int resID = getContext().getResources().getIdentifier("_" + englishWord.getWord().replaceAll(" ", "").toLowerCase(), "raw", getContext().getPackageName());
+                    SoundPlayer.getInstance().playMedia(v.getContext(), resID);
                 }
             });
         }

@@ -121,7 +121,7 @@ public class CrossWordFragment extends Fragment {
     int currentWordLength;
     EnglishWord currentSelectWord;
     ArrayList<Integer> currentSelectWordTileIndex;
-    GetMedia getMedia;
+    //GetMedia getMedia;
 
     private OnFragmentInteractionListener mListener;
 
@@ -131,7 +131,7 @@ public class CrossWordFragment extends Fragment {
         order = new ArrayList<>();
         tiles = new ArrayList<>();
         added = new ArrayList<>();
-        getMedia = new GetMedia();
+        //getMedia = new GetMedia();
         currentWordLength = 0;
         currentSelectWordTileIndex = new ArrayList<>();
     }
@@ -269,9 +269,9 @@ public class CrossWordFragment extends Fragment {
                 wordInput.setItemCount(currentWordLength);
                 suggestLayout.setVisibility(View.VISIBLE);
                 boardLayout.setVisibility(View.INVISIBLE);
-                getMedia.cancel(true);
-                getMedia = new GetMedia();
-                getMedia.execute(currentSelectWord.getAudio());
+//                getMedia.cancel(true);
+//                getMedia = new GetMedia();
+//                getMedia.execute(currentSelectWord.getAudio());
                 exitSuggest.setVisibility(View.VISIBLE);
                 wordInput.getText().clear();
                 currentInputWord = new StringBuilder();
@@ -316,7 +316,8 @@ public class CrossWordFragment extends Fragment {
 
     private void showCorrect() {
         wordInput.setBackgroundColor(Color.GREEN);
-        SoundPlayer.getInstance().playMedia(currentSelectWord.getAudio());
+        int resID = getResources().getIdentifier("_" + currentSelectWord.getWord().replaceAll(" ", "").toLowerCase(), "raw", getContext().getPackageName());
+        SoundPlayer.getInstance().playMedia(getContext(), resID);
         horizontal.add(currentSelectWord);
         wordTableAdapter.notifyDataSetChanged();
 
@@ -342,7 +343,7 @@ public class CrossWordFragment extends Fragment {
 
     private void showError() {
         wordInput.setBackgroundColor(Color.RED);
-        int resID = getResources().getIdentifier("wrong", "raw", getContext().getPackageName());
+        int resID = getResources().getIdentifier("_wrong", "raw", getContext().getPackageName());
         SoundPlayer.getInstance().playMedia(getContext(), resID);
         Handler handler = new Handler();
         handler.postDelayed(new Runnable() {

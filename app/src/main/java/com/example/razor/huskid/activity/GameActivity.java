@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Build;
 import android.support.annotation.RequiresApi;
+import android.support.constraint.ConstraintLayout;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -14,12 +15,19 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.Gravity;
 import android.view.View;
+import android.widget.ImageView;
 
 import com.example.razor.huskid.R;
 
 import com.example.razor.huskid.fragment.CrossWordFragment;
+import com.example.razor.huskid.helper.SoundPlayer;
+import com.example.razor.huskid.helper.Storage;
 import com.kyleduo.blurpopupwindow.library.BlurPopupWindow;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
+
+import static com.example.razor.huskid.activity.HomeActivity.BG_SOUND;
 import static com.example.razor.huskid.activity.HomeActivity.LEVEL;
 import static com.example.razor.huskid.activity.HomeActivity.TOPIC;
 
@@ -31,12 +39,28 @@ public class GameActivity extends AppCompatActivity implements
     BlurPopupWindow exitBuilder;
     BlurPopupWindow winBuilder;
 
+    @BindView(R.id.setting)
+    ImageView setting;
+
+    @BindView(R.id.mute)
+    ImageView mute;
+
+    @BindView(R.id.about)
+    ImageView about;
+
+    @BindView(R.id.setting_layout)
+    ConstraintLayout settingLayout;
+
+    boolean settingOpen;
+    Storage storage;
+
     @RequiresApi(api = Build.VERSION_CODES.M)
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_game);
+        ButterKnife.bind(this);
 
         exitBuilder = new BlurPopupWindow.Builder(this)
             .setContentView(R.layout.popup_exit)
@@ -83,6 +107,51 @@ public class GameActivity extends AppCompatActivity implements
 
         crossWordFragment = CrossWordFragment.newInstance(getIntent().getIntExtra(LEVEL, 8), getIntent().getStringExtra(TOPIC));
         attachFragment(crossWordFragment);
+        mute.setVisibility(View.INVISIBLE);
+        about.setVisibility(View.INVISIBLE);
+        settingOpen = false;
+        storage = new Storage(this);
+        settingLayout.setBackgroundResource(R.drawable.setting_back);
+
+        setting.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (settingOpen) {
+                    settingLayout.setBackgroundResource(R.drawable.setting_back);
+                    mute.setVisibility(View.INVISIBLE);
+                    about.setVisibility(View.INVISIBLE);
+                    settingOpen = false;
+                    return;
+                }
+                settingLayout.setBackgroundResource(R.drawable.setting_back_full);
+                mute.setVisibility(View.VISIBLE);
+                about.setVisibility(View.VISIBLE);
+                settingOpen =true;
+            }
+        });
+
+        mute.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (storage.get(BG_SOUND).equals("ON")) {
+                    mute.setImageResource(R.drawable.music_off);
+                    SoundPlayer.getInstance().pauseBackgroundMedia();
+                    storage.set(BG_SOUND, "OFF");
+                    return;
+                }
+
+                mute.setImageResource(R.drawable.music_on);
+                SoundPlayer.getInstance().playBackgroundMedia();
+                storage.set(BG_SOUND, "ON");
+            }
+        });
+
+        about.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //buildShowCase(pager, "Touch", "Touch here to open topic menu");
+            }
+        });
     }
 
     @Override
@@ -147,5 +216,25 @@ public class GameActivity extends AppCompatActivity implements
     @Override
     public void buildWinLayout() {
         winBuilder.show();
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        SoundPlayer.getInstance().pauseBackgroundMedia();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        int resID = getResources().getIdentifier("_bgm3", "raw", getPackageName());
+        SoundPlayer.getInstance().prepairBackgroundMedia(this, resID);
+        if (!storage.get(BG_SOUND).equals("OFF")) {
+            SoundPlayer.getInstance().playBackgroundMedia();
+            storage.set(BG_SOUND, "ON");
+            return;
+        }
+
+        mute.setImageResource(R.drawable.music_off);
     }
 }

@@ -48,7 +48,8 @@ public class SlideAdapter extends PagerAdapter {
         ImageView imageView = rootView.findViewById(R.id.img_slider);
 
         if (words.get(position) != null) {
-            GlideApp.with(context).load(words.get(position).getImage()).fitCenter().into(imageView);
+            int resID = context.getResources().getIdentifier("_" + words.get(position).getWord().replaceAll(" ", "").toLowerCase() + "_pic", "raw", context.getPackageName());
+            GlideApp.with(context).load(resID).fitCenter().into(imageView);
         }
         container.addView(rootView);
 

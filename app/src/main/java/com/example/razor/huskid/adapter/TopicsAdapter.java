@@ -26,7 +26,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import de.hdodenhof.circleimageview.CircleImageView;
 
-public class TopicsAdapter extends ArrayAdapter {
+public class TopicsAdapter extends ArrayAdapter<Topic> {
 
     private List<Topic> topics;
     private Context context;

@@ -1,7 +1,10 @@
 package com.example.razor.huskid.activity;
 
 import android.content.Intent;
+import android.os.Build;
+import android.support.annotation.RequiresApi;
 import android.support.constraint.ConstraintLayout;
+import android.support.v4.view.ViewCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.Gravity;
@@ -15,6 +18,10 @@ import com.example.razor.huskid.adapter.TopicsAdapter;
 import com.example.razor.huskid.helper.DatabaseHelper;
 import com.example.razor.huskid.helper.SoundPlayer;
 import com.example.razor.huskid.helper.Storage;
+import com.github.amlcurran.showcaseview.ShowcaseView;
+import com.github.amlcurran.showcaseview.targets.ActionViewTarget;
+import com.github.amlcurran.showcaseview.targets.Target;
+import com.github.amlcurran.showcaseview.targets.ViewTarget;
 import com.kyleduo.blurpopupwindow.library.BlurPopupWindow;
 
 import butterknife.BindView;
@@ -45,6 +52,8 @@ public class HomeActivity extends AppCompatActivity {
     boolean settingOpen;
     boolean gameLevelOpen;
     Storage storage;
+    BlurPopupWindow popup;
+    ShowcaseView showcaseView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -92,7 +101,37 @@ public class HomeActivity extends AppCompatActivity {
             }
         });
 
+        about.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                buildShowCase(topicListView, "Touch", "Touch here to open topic menu");
+            }
+        });
 
+        buildFirstShowCase(topicListView, "Touch", "Touch here to open topic menu");
+    }
+
+    private void buildFirstShowCase(View view, String contentTitle, String contentText) {
+        Target target = new ViewTarget(view);
+        showcaseView= new ShowcaseView.Builder(this)
+                .setTarget(target)
+                .setContentTitle(contentTitle)
+                .setContentText(contentText)
+                .hideOnTouchOutside()
+                .setStyle(R.style.CustomShowcaseTheme)
+                .singleShot(1)
+                .build();
+    }
+
+    private void buildShowCase(View view, String contentTitle, String contentText) {
+        Target target = new ViewTarget(view);
+        showcaseView= new ShowcaseView.Builder(this)
+                .setTarget(target)
+                .setContentTitle(contentTitle)
+                .setContentText(contentText)
+                .hideOnTouchOutside()
+                .setStyle(R.style.CustomShowcaseTheme)
+                .build();
     }
 
     @Override
@@ -104,7 +143,7 @@ public class HomeActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        int resID = getResources().getIdentifier("bgm1", "raw", getPackageName());
+        int resID = getResources().getIdentifier("_bgm1", "raw", getPackageName());
         SoundPlayer.getInstance().prepairBackgroundMedia(this, resID);
         if (!storage.get(BG_SOUND).equals("OFF")) {
             SoundPlayer.getInstance().playBackgroundMedia();
@@ -119,25 +158,26 @@ public class HomeActivity extends AppCompatActivity {
         topicsAdapter = new TopicsAdapter(this, DatabaseHelper.getInstance().getAllTopics());
         topicListView.setAdapter(topicsAdapter);
         topicListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @RequiresApi(api = Build.VERSION_CODES.N)
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-//                Intent intent = new Intent(HomeActivity.this, GameActivity.class);
-//                intent.putExtra(TOPIC, DatabaseHelper.getInstance().getAllTopics().get(position).getName());
-//                startActivity(intent);
-                onButtonClick(DatabaseHelper.getInstance().getAllTopics().get(position).getName());
+                onButtonClick(topicsAdapter.getItem(position).getName());
+                if (showcaseView.isShowing()) {
+                    showcaseView.hide();
+                }
             }
         });
     }
 
     public void onButtonClick(final String topic) {
-        int resID = getResources().getIdentifier("click", "raw", getPackageName());
+        int resID = getResources().getIdentifier("_click", "raw", getPackageName());
         SoundPlayer.getInstance().playMedia(this, resID);
         BlurPopupWindow builder = new BlurPopupWindow.Builder(this)
                 .setContentView(R.layout.popup_topic)
                 .bindClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        int resID = getResources().getIdentifier("click", "raw", v.getContext().getPackageName());
+                        int resID = getResources().getIdentifier("_click", "raw", v.getContext().getPackageName());
                         SoundPlayer.getInstance().playMedia(v.getContext(), resID);
                         gotoLearn(topic);
                     }
@@ -145,7 +185,7 @@ public class HomeActivity extends AppCompatActivity {
                 .bindClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        int resID = getResources().getIdentifier("click", "raw", v.getContext().getPackageName());
+                        int resID = getResources().getIdentifier("_click", "raw", v.getContext().getPackageName());
                         SoundPlayer.getInstance().playMedia(v.getContext(), resID);
                         View gameMode = v.getRootView().findViewById(R.id.game_mode);
                         View learnLayout = v.getRootView().findViewById(R.id.popup_learn_layout);
@@ -163,7 +203,7 @@ public class HomeActivity extends AppCompatActivity {
                 .bindClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        int resID = getResources().getIdentifier("click", "raw", v.getContext().getPackageName());
+                        int resID = getResources().getIdentifier("_click", "raw", v.getContext().getPackageName());
                         SoundPlayer.getInstance().playMedia(v.getContext(), resID);
                         gotoGame(topic, 8);
                     }
@@ -171,7 +211,7 @@ public class HomeActivity extends AppCompatActivity {
                 .bindClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        int resID = getResources().getIdentifier("click", "raw", v.getContext().getPackageName());
+                        int resID = getResources().getIdentifier("_click", "raw", v.getContext().getPackageName());
                         SoundPlayer.getInstance().playMedia(v.getContext(), resID);
                         gotoGame(topic, 10);
                     }
@@ -181,7 +221,7 @@ public class HomeActivity extends AppCompatActivity {
                 .setBlurRadius(10)
                 .setTintColor(0x30000000)
                 .build();
-
+        this.popup = builder;
         builder.show();
     }
 
@@ -189,6 +229,7 @@ public class HomeActivity extends AppCompatActivity {
         Intent intent = new Intent(HomeActivity.this, LearnActivity.class);
                 intent.putExtra(TOPIC, topic);
                 startActivity(intent);
+                popup.dismiss();
     }
 
     public void gotoGame(String topic, int level) {
@@ -196,5 +237,6 @@ public class HomeActivity extends AppCompatActivity {
         intent.putExtra(TOPIC, topic);
         intent.putExtra(LEVEL, level);
         startActivity(intent);
+        popup.dismiss();
     }
 }
