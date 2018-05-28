@@ -6,12 +6,8 @@ import com.raizlabs.android.dbflow.annotation.PrimaryKey;
 import com.raizlabs.android.dbflow.annotation.Table;
 import com.raizlabs.android.dbflow.annotation.Unique;
 
-/**
- * Created by QuocHuy on 3/19/2018.
- */
 
 @Table(database = AppDatabase.class)
-
 public class EnglishWord {
 
     @Unique
