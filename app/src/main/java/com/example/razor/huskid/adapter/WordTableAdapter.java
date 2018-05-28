@@ -2,6 +2,7 @@ package com.example.razor.huskid.adapter;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.view.ViewPager;
@@ -13,10 +14,13 @@ import android.widget.ImageButton;
 import android.widget.TextView;
 
 import com.example.razor.huskid.R;
+import com.example.razor.huskid.activity.CrossWordGameActivity;
 import com.example.razor.huskid.entity.EnglishWord;
 import com.example.razor.huskid.helper.SoundPlayer;
 
 import java.util.List;
+
+import static com.example.razor.huskid.activity.HomeActivity.BG_SOUND;
 
 public class WordTableAdapter extends ArrayAdapter<EnglishWord> {
     public WordTableAdapter(@NonNull Context context, @NonNull List<EnglishWord> objects) {
@@ -37,8 +41,18 @@ public class WordTableAdapter extends ArrayAdapter<EnglishWord> {
             playsound.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
+                    SoundPlayer.getInstance().pauseBackgroundMedia();
                     int resID = getContext().getResources().getIdentifier("_" + englishWord.getWord().replaceAll(" ", "").toLowerCase(), "raw", getContext().getPackageName());
                     SoundPlayer.getInstance().playMedia(v.getContext(), resID);
+                    if (!((CrossWordGameActivity) getContext()).getStorage().get(BG_SOUND).equals("OFF")) {
+                        Handler handler = new Handler();
+                        handler.postDelayed(new Runnable() {
+                            @Override
+                            public void run() {
+                                SoundPlayer.getInstance().playBackgroundMedia();
+                            }
+                        }, 3000);
+                    }
                 }
             });
         }

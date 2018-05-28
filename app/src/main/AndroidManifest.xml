@@ -16,7 +16,7 @@
         android:fullBackupContent="false"
         android:theme="@style/AppTheme">
 
-        <activity android:name=".activity.GameActivity"/>
+        <activity android:name=".activity.CrossWordGameActivity"/>
 
         <activity android:name=".activity.SplashActivity">
             <intent-filter>

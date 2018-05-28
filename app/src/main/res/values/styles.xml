@@ -14,7 +14,7 @@
     </style>
 
     <style name="CustomShowcaseTheme" parent="ShowcaseView.Light">
-        <item name="sv_backgroundColor">#3300A621</item>
+        <item name="sv_backgroundColor">#CC00A621</item>
         <item name="sv_showcaseColor">#00801A</item>
         <item name="sv_buttonText">Hide</item>
         <item name="sv_tintButtonColor">false</item>
@@ -25,7 +25,7 @@
     <style name="CustomTitle" parent="TextAppearance.ShowcaseView.Title">
         <item name="android:textColor">@color/colorFoodTiny</item>
         <item name="android:textStyle">bold</item>
-        <item name="android:textSize">24sp</item>
+        <item name="android:textSize">18sp</item>
     </style>
 
     <style name="CustomContent" parent="TextAppearance.ShowcaseView.Title.Light">

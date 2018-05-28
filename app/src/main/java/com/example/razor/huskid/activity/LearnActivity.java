@@ -71,6 +71,8 @@ public class LearnActivity extends AppCompatActivity {
     @BindView(R.id.setting_layout)
     ConstraintLayout settingLayout;
 
+
+
     boolean settingOpen;
     Storage storage;
 
@@ -81,6 +83,8 @@ public class LearnActivity extends AppCompatActivity {
     EnglishWord currentWord;
     //GetMedia getMedia;
     int currentPos;
+    ShowcaseView showcaseView;
+    int showCaseCount;
 
 
     @Override
@@ -88,6 +92,7 @@ public class LearnActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_learn);
         ButterKnife.bind(this);
+        showCaseCount = 0;
         topic = getIntent().getStringExtra(TOPIC);
         words = DatabaseHelper.getInstance().getTopicWords(topic);
         slideAdapter = new SlideAdapter(this, words);
@@ -107,7 +112,6 @@ public class LearnActivity extends AppCompatActivity {
             public void onPageSelected(int position) {
                 currentPos = position;
                 initInfor(position);
-
             }
 
             @Override
@@ -122,26 +126,40 @@ public class LearnActivity extends AppCompatActivity {
                 SoundPlayer.getInstance().pauseBackgroundMedia();
                 int resID = getResources().getIdentifier("_" + currentWord.getWord().replaceAll(" ", "").toLowerCase(), "raw", v.getContext().getPackageName());
                 SoundPlayer.getInstance().playMedia(v.getContext(), resID);
-                Handler handler = new Handler();
-                handler.postDelayed(new Runnable() {
-                    @Override
-                    public void run() {
-                        SoundPlayer.getInstance().playBackgroundMedia();
-                    }
-                }, 3000);
+                if (!storage.get(BG_SOUND).equals("OFF")) {
+                    Handler handler = new Handler();
+                    handler.postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+                            SoundPlayer.getInstance().playBackgroundMedia();
+                        }
+                    }, 3000);
+                }
             }
         });
 
         next.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                if (currentPos == words.size() - 1) {
+                    int resID = getResources().getIdentifier("_clicknot", "raw", getPackageName());
+                    SoundPlayer.getInstance().playMedia(LearnActivity.this, resID);
+                    return;
+                }
                 pager.setCurrentItem(currentPos + 1);
+
             }
         });
 
         pre.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                if (currentPos == 0) {
+                    int resID = getResources().getIdentifier("_clicknot", "raw", getPackageName());
+                    SoundPlayer.getInstance().playMedia(LearnActivity.this, resID);
+                    return;
+                }
+
                 pager.setCurrentItem(currentPos - 1);
             }
         });
@@ -154,6 +172,8 @@ public class LearnActivity extends AppCompatActivity {
         setting.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                int resID = getResources().getIdentifier("_click", "raw", getPackageName());
+                SoundPlayer.getInstance().playMedia(LearnActivity.this, resID);
                 if (settingOpen) {
                     settingLayout.setBackgroundResource(R.drawable.setting_back);
                     mute.setVisibility(View.INVISIBLE);
@@ -171,6 +191,8 @@ public class LearnActivity extends AppCompatActivity {
         mute.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                int resID = getResources().getIdentifier("_click", "raw", getPackageName());
+                SoundPlayer.getInstance().playMedia(LearnActivity.this, resID);
                 if (storage.get(BG_SOUND).equals("ON")) {
                     mute.setImageResource(R.drawable.music_off);
                     SoundPlayer.getInstance().pauseBackgroundMedia();
@@ -187,10 +209,13 @@ public class LearnActivity extends AppCompatActivity {
         about.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                buildShowCase(pager, "Touch", "Touch here to open topic menu");
+                int resID = getResources().getIdentifier("_click", "raw", getPackageName());
+                SoundPlayer.getInstance().playMedia(LearnActivity.this, resID);
+                buildShowCase(pager, "This is the picture describe the word", "");
             }
         });
 
+        buildFirstShowCase(pager, "This is the picture describe the word", "");
 
     }
 
@@ -216,26 +241,42 @@ public class LearnActivity extends AppCompatActivity {
 
     private void buildFirstShowCase(View view, String contentTitle, String contentText) {
         Target target = new ViewTarget(view);
-        Object showcaseView = new ShowcaseView.Builder(this)
+        showcaseView = new ShowcaseView.Builder(this)
                 .setTarget(target)
                 .setContentTitle(contentTitle)
                 .setContentText(contentText)
                 .hideOnTouchOutside()
+                .setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        nextShowCase();
+                    }
+                })
+                .blockAllTouches()
                 .setStyle(R.style.CustomShowcaseTheme)
-                .singleShot(1)
+                .singleShot(2)
                 .build();
+
+        showcaseView.setButtonText("Next");
+        showcaseView.setShouldCentreText(true);
     }
 
     private void buildShowCase(View view, String contentTitle, String contentText) {
         Target target = new ViewTarget(view);
-        Object showcaseView = new ShowcaseView.Builder(this)
+        showcaseView = new ShowcaseView.Builder(this)
                 .setTarget(target)
                 .setContentTitle(contentTitle)
                 .setContentText(contentText)
-                .hideOnTouchOutside()
+                .setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        nextShowCase();
+                    }
+                })
                 .setStyle(R.style.CustomShowcaseTheme)
-                .singleShot(1)
                 .build();
+        showcaseView.setButtonText("Next");
+        showcaseView.setShouldCentreText(true);
     }
 
     public void initInfor(int pos) {
@@ -252,5 +293,46 @@ public class LearnActivity extends AppCompatActivity {
 //        } else {
 //            return;
 //        }
+    }
+
+    void nextShowCase() {
+        switch (showCaseCount) {
+            case 0:
+                showcaseView.setShowcase(new ViewTarget(word), true);
+                showcaseView.setContentTitle("This is word in English");
+                showcaseView.setContentText("");
+                break;
+
+            case 1:
+                showcaseView.setShowcase(new ViewTarget(meaning), true);
+                showcaseView.setContentTitle("This is meaning in Vietnamese");
+                showcaseView.setContentText("");
+                break;
+
+            case 2:
+                showcaseView.setShowcase(new ViewTarget(playSound), true);
+                showcaseView.setContentTitle("Touch this button to play sound");
+                showcaseView.setContentText("");
+                break;
+
+            case 3:
+                showcaseView.setShowcase(new ViewTarget(next), true);
+                showcaseView.setContentTitle("Touch this button to show next word");
+                showcaseView.setContentText("");
+                break;
+
+            case 4:
+                showcaseView.setShowcase(new ViewTarget(pre), true);
+                showcaseView.setContentTitle("Touch this button to show previous word");
+                showcaseView.setContentText("");
+                break;
+
+            case 5:
+                showcaseView.hide();
+                showCaseCount = -1;
+                showcaseView.setButtonText("Done");
+                break;
+        }
+        showCaseCount++;
     }
 }
