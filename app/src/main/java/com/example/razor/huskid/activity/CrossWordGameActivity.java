@@ -55,8 +55,7 @@ import static com.example.razor.huskid.activity.HomeActivity.LEVEL;
 import static com.example.razor.huskid.activity.HomeActivity.TOPIC;
 
 
-public class CrossWordGameActivity extends AppCompatActivity implements
-        CrossWordFragment.OnFragmentInteractionListener {
+public class CrossWordGameActivity extends AppCompatActivity {
 
     BlurPopupWindow exitBuilder;
     BlurPopupWindow winBuilder;
@@ -843,7 +842,6 @@ public class CrossWordGameActivity extends AppCompatActivity implements
         exitBuilder.show();
     }
 
-    @Override
     public void buildWinLayout() {
         winBuilder.show();
     }

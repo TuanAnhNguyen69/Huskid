@@ -9,10 +9,6 @@ import com.raizlabs.android.dbflow.sql.language.SQLite;
 
 import java.util.List;
 
-/**
- * Created by QuocHuy on 3/19/2018.
- */
-
 public class DatabaseHelper {
 
     public static DatabaseHelper databaseHelper;
@@ -25,6 +21,10 @@ public class DatabaseHelper {
             databaseHelper = new DatabaseHelper();
         }
         return databaseHelper;
+    }
+
+    private DatabaseHelper(){
+
     }
 
     public List<EnglishWord> getTopicWords(String topic) {

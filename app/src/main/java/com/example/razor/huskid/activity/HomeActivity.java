@@ -260,17 +260,25 @@ public class HomeActivity extends AppCompatActivity {
                     public void onClick(View v) {
                         int resID = getResources().getIdentifier("_click", "raw", v.getContext().getPackageName());
                         SoundPlayer.getInstance().playMedia(v.getContext(), resID);
-                        gotoGame(topic, 8);
+                        gotoYesNoGame(topic);
                     }
-                }, R.id.normal)
+                }, R.id.yes_no)
                 .bindClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
                         int resID = getResources().getIdentifier("_click", "raw", v.getContext().getPackageName());
                         SoundPlayer.getInstance().playMedia(v.getContext(), resID);
-                        gotoGame(topic, 10);
+                        gotoChoiceGame(topic);
                     }
-                }, R.id.hard)
+                }, R.id.choice)
+                .bindClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        int resID = getResources().getIdentifier("_click", "raw", v.getContext().getPackageName());
+                        SoundPlayer.getInstance().playMedia(v.getContext(), resID);
+                        gotoCrossWordGame(topic, 10);
+                    }
+                }, R.id.cross)
                 .setGravity(Gravity.CENTER)
                 .setScaleRatio(0.2f)
                 .setBlurRadius(10)
@@ -287,7 +295,21 @@ public class HomeActivity extends AppCompatActivity {
                 popup.dismiss();
     }
 
-    public void gotoGame(String topic, int level) {
+    public void gotoYesNoGame(String topic){
+        Intent intent = new Intent(HomeActivity.this, GameYesNoActivity.class);
+                intent.putExtra(TOPIC, topic);
+                startActivity(intent);
+        popup.dismiss();
+    }
+
+    public void gotoChoiceGame(String topic){
+        Intent intent = new Intent(HomeActivity.this, GameChoice.class);
+        intent.putExtra(TOPIC, topic);
+        startActivity(intent);
+        popup.dismiss();
+    }
+
+    public void gotoCrossWordGame(String topic, int level) {
         Intent intent = new Intent(HomeActivity.this, CrossWordGameActivity.class);
         intent.putExtra(TOPIC, topic);
         intent.putExtra(LEVEL, level);

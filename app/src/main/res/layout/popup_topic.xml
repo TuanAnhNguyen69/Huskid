@@ -40,7 +40,22 @@
             android:visibility="gone">
 
             <mehdi.sakout.fancybuttons.FancyButton
-                android:id="@+id/normal"
+                android:id="@+id/yes_no"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="8dp"
+                android:layout_weight="1"
+                fancy:fb_borderColor="#FFFFFF"
+                fancy:fb_borderWidth="5dp"
+                fancy:fb_defaultColor="#00c8ff"
+                fancy:fb_focusColor="#9bd823"
+                fancy:fb_radius="30dp"
+                fancy:fb_text="Normal"
+                fancy:fb_textColor="#FFFFFF" />
+
+
+            <mehdi.sakout.fancybuttons.FancyButton
+                android:id="@+id/choice"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="8dp"
@@ -54,7 +69,7 @@
                 fancy:fb_textColor="#FFFFFF" />
 
             <mehdi.sakout.fancybuttons.FancyButton
-                android:id="@+id/hard"
+                android:id="@+id/cross"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="8dp"

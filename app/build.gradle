@@ -48,4 +48,5 @@ dependencies {
     implementation 'com.kyleduo.blurpopupwindow:blurpopupwindow:1.0.9'
     implementation 'com.yanzhikai:TextPathView:0.1.2'
     implementation 'com.github.amlcurran.showcaseview:library:5.4.3'
+    implementation 'com.android.support:gridlayout-v7:27.1.0'
 }

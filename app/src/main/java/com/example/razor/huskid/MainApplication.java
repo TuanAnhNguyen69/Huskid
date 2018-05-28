@@ -14,7 +14,7 @@ import com.raizlabs.android.dbflow.config.FlowManager;
 public class MainApplication extends Application {
     @Override
     public void onCreate() {
-        getDatabasePath("Huskid.db").delete();
+        //getDatabasePath("Huskid.db").delete();
         //FlowManager.getDatabase(AppDatabase.NAME).reset(this);
         FlowManager.init(this);
         super.onCreate();
