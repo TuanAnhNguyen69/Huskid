@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.example.razor.huskid.activity.SplashActivity">
+    tools:context="com.foodtiny.razor.elkid.activity.SplashActivity">
 
     <yanzhikai.textpath.AsyncTextPathView
         android:id="@+id/hus"
@@ -15,7 +15,7 @@
         android:layout_gravity="center_horizontal|clip_vertical"
         app:duration="3000"
         app:showPainter="true"
-        app:text="HUSKID"
+        app:text="ELKID"
         app:textInCenter="true"
         app:textSize="54sp" />
 
