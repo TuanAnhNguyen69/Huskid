@@ -42,7 +42,8 @@ public class WordTableAdapter extends ArrayAdapter<EnglishWord> {
                 @Override
                 public void onClick(View v) {
                     SoundPlayer.getInstance().pauseBackgroundMedia();
-                    int resID = getContext().getResources().getIdentifier("_" + englishWord.getWord().replaceAll(" ", "").toLowerCase(), "raw", getContext().getPackageName());
+                    int resID = getContext().getResources().getIdentifier("_" + englishWord.getId(), "raw", getContext().getPackageName());
+                    //int resID = getContext().getResources().getIdentifier("_" + englishWord.getWord().replaceAll(" ", "").toLowerCase(), "raw", getContext().getPackageName());
                     SoundPlayer.getInstance().playMedia(v.getContext(), resID);
                     if (!((CrossWordGameActivity) getContext()).getStorage().get(BG_SOUND).equals("OFF")) {
                         Handler handler = new Handler();

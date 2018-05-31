@@ -124,7 +124,8 @@ public class LearnActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 SoundPlayer.getInstance().pauseBackgroundMedia();
-                int resID = getResources().getIdentifier("_" + currentWord.getWord().replaceAll(" ", "").toLowerCase(), "raw", v.getContext().getPackageName());
+                int resID = getResources().getIdentifier("_" + currentWord.getId(), "raw", v.getContext().getPackageName());
+                //int resID = getResources().getIdentifier("_" + currentWord.getWord().replaceAll(" ", "").toLowerCase(), "raw", v.getContext().getPackageName());
                 SoundPlayer.getInstance().playMedia(v.getContext(), resID);
                 if (!storage.get(BG_SOUND).equals("OFF")) {
                     Handler handler = new Handler();

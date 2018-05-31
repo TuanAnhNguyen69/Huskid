@@ -12,6 +12,7 @@ import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.DisplayMetrics;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
 import android.widget.AdapterView;
@@ -135,6 +136,7 @@ public class CrossWordGameActivity extends AppCompatActivity {
     CrossWord crossWord;
     TileAdapter tileAdapter;
     WordTableAdapter wordTableAdapter;
+    //EnglishWord examWord;
 
     StringBuilder currentInputWord;
     int currentWordLength;
@@ -180,24 +182,24 @@ public class CrossWordGameActivity extends AppCompatActivity {
         initSuggest();
 
         exitBuilder = new BlurPopupWindow.Builder(this)
-            .setContentView(R.layout.popup_exit)
-            .bindClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    exitBuilder.dismiss();
-                }
-            }, R.id.no)
-            .bindClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    exit();
-                }
-            }, R.id.yes)
-            .setGravity(Gravity.CENTER)
-            .setScaleRatio(0.2f)
-            .setBlurRadius(10)
-            .setTintColor(0x30000000)
-            .build();
+                .setContentView(R.layout.popup_exit)
+                .bindClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        exitBuilder.dismiss();
+                    }
+                }, R.id.no)
+                .bindClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        exit();
+                    }
+                }, R.id.yes)
+                .setGravity(Gravity.CENTER)
+                .setScaleRatio(0.2f)
+                .setBlurRadius(10)
+                .setTintColor(0x30000000)
+                .build();
 
         winBuilder = new BlurPopupWindow.Builder(this)
                 .setContentView(R.layout.popup_win)
@@ -332,10 +334,13 @@ public class CrossWordGameActivity extends AppCompatActivity {
         ArrayList<EnglishWord> current = horizontal;
         EnglishWord englishWord = new EnglishWord();
 
-        englishWord.setWord("dog");
-        int wordPicID = getResources().getIdentifier("_" + "dog_pic", "raw", getPackageName());
 
-        int wordResID = getResources().getIdentifier("_" + "dog", "raw", getPackageName());
+        englishWord.setWord("dog");
+        englishWord.setId(86);
+        int wordPicID = getResources().getIdentifier("_" + "86_pic", "raw", getPackageName());
+        Log.d("default dog","" + wordPicID);
+
+        int wordResID = getResources().getIdentifier("_" + "86", "raw", getPackageName());
 
 
         switch (showCaseCount) {
@@ -539,7 +544,9 @@ public class CrossWordGameActivity extends AppCompatActivity {
 
                 //alphabetAdapter.setWord(currentSelectWord.getWord());
                 //alphabetAdapter.notifyDataSetChanged();
-                int wordResID = getResources().getIdentifier("_" + currentSelectWord.getWord().replaceAll(" ", "").toLowerCase() + "_pic", "raw", getPackageName());
+                //***
+                int wordResID = getResources().getIdentifier("_" + currentSelectWord.getId() + "_pic", "raw", getPackageName());
+                //int wordResID = getResources().getIdentifier("_" + currentSelectWord.getWord().replaceAll(" ", "").toLowerCase() + "_pic", "raw", getPackageName());
                 GlideApp
                         .with(CrossWordGameActivity.this)
                         .load(wordResID)
@@ -578,7 +585,9 @@ public class CrossWordGameActivity extends AppCompatActivity {
     private void showCorrect() {
         wordInput.setBackgroundColor(Color.GREEN);
         SoundPlayer.getInstance().pauseBackgroundMedia();
-        int resID = getResources().getIdentifier("_" + currentSelectWord.getWord().replaceAll(" ", "").toLowerCase(), "raw", getPackageName());
+        //****
+        int resID = getResources().getIdentifier("_" + currentSelectWord.getId(), "raw", getPackageName());
+        //int resID = getResources().getIdentifier("_" + currentSelectWord.getWord().replaceAll(" ", "").toLowerCase(), "raw", getPackageName());
         SoundPlayer.getInstance().playMedia(this, resID);
         horizontal.add(currentSelectWord);
         wordTableAdapter.notifyDataSetChanged();

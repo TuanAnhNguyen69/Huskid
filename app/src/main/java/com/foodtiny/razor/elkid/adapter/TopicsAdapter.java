@@ -75,7 +75,7 @@ public class TopicsAdapter extends ArrayAdapter<Topic> {
             viewHolder.backGround.setCardBackgroundColor(Color.argb(255, random.nextInt(256), random.nextInt(256), random.nextInt(256)));
             viewHolder.topicImageView.setBorderColor(Color.argb(255, random.nextInt(256), random.nextInt(256), random.nextInt(256)));
             viewHolder.topicTextView.setText(topic.getName());
-            int wordPicID = getContext().getResources().getIdentifier("_" + topic.getName()+ "_topic_pic", "raw", getContext().getPackageName());
+            int wordPicID = getContext().getResources().getIdentifier("_" + topic.getName().replaceAll(" ", "").toLowerCase()+ "_topic_pic", "raw", getContext().getPackageName());
             GlideApp.with(getContext()).load(wordPicID).centerCrop().into(viewHolder.topicImageView);
         }
         return convertView;

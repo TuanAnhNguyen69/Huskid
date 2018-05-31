@@ -328,7 +328,8 @@ public class GameChoice extends AppCompatActivity {
             case 3:
                 showcaseView.setShowcase(new ViewTarget(choice_bt1), true);
                 SoundPlayer.getInstance().pauseBackgroundMedia();
-                int wordResID = getResources().getIdentifier("_" + choice_bt1.getText().toString().replaceAll(" ", "").toLowerCase(), "raw", getPackageName());
+                int wordResID = getResources().getIdentifier("_" + rightWord.getId(), "raw", getPackageName());
+                //int wordResID = getResources().getIdentifier("_" + choice_bt1.getText().toString().replaceAll(" ", "").toLowerCase(), "raw", getPackageName());
                 SoundPlayer.getInstance().playMedia(this, wordResID);
                 choice_bt1.setBackgroundColor(Color.GREEN);
                 handler.postDelayed(new Runnable() {
@@ -422,7 +423,8 @@ public class GameChoice extends AppCompatActivity {
             Log.d("ssas", "Sai");
         }
 
-        int wordResID = getResources().getIdentifier("_" + uselist.get(questionCount).getWord().replaceAll(" ", "").toLowerCase() + "_pic", "raw", getPackageName());
+        int wordResID = getResources().getIdentifier("_" + uselist.get(questionCount).getId() + "_pic", "raw", getPackageName());
+        //int wordResID = getResources().getIdentifier("_" + uselist.get(questionCount).getWord().replaceAll(" ", "").toLowerCase() + "_pic", "raw", getPackageName());
         GlideApp.with(this).load(wordResID).into(image);
 
         final int result = RandomButton(rightWord.getWord()
@@ -519,7 +521,8 @@ public class GameChoice extends AppCompatActivity {
 
     private void showCorrect(final View view) {
         SoundPlayer.getInstance().pauseBackgroundMedia();
-        int wordResID = getResources().getIdentifier("_" + rightWord.getWord().replaceAll(" ", "").toLowerCase(), "raw", getPackageName());
+        int wordResID = getResources().getIdentifier("_" + rightWord.getId(), "raw", getPackageName());
+        //int wordResID = getResources().getIdentifier("_" + rightWord.getWord().replaceAll(" ", "").toLowerCase(), "raw", getPackageName());
         SoundPlayer.getInstance().playMedia(this, wordResID);
         final FancyButton button = (FancyButton) view;
         button.setBackgroundColor(Color.GREEN);
@@ -570,13 +573,13 @@ public class GameChoice extends AppCompatActivity {
         if(choice_bt1.getText().equals(a))
             return 1;
         else
-            if(choice_bt2.getText().equals(a))
-                return 2;
-            else
-                if (choice_bt3.getText().equals(a))
-                    return 3;
-                else
-                    return 4;
+        if(choice_bt2.getText().equals(a))
+            return 2;
+        else
+        if (choice_bt3.getText().equals(a))
+            return 3;
+        else
+            return 4;
     }
 
     @SuppressLint("SetTextI18n")

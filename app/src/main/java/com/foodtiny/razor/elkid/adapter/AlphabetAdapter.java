@@ -10,6 +10,7 @@ import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
 import com.foodtiny.razor.elkid.R;
+import com.foodtiny.razor.elkid.entity.EnglishWord;
 
 import java.lang.reflect.Array;
 import java.util.ArrayList;
@@ -28,6 +29,7 @@ public class AlphabetAdapter extends ArrayAdapter {
     private Context context;
     private TextView character;
     private String word;
+    private int id;
     private ArrayList<Integer> clickPosition;
 
     public AlphabetAdapter(@NonNull Context context) {

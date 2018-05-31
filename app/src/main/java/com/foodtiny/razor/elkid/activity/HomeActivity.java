@@ -49,6 +49,7 @@ public class HomeActivity extends AppCompatActivity {
     private TopicsAdapter topicsAdapter;
     boolean settingOpen;
     boolean gameLevelOpen;
+    boolean learnTypeOpen;
     Storage storage;
     BlurPopupWindow popup;
     ShowcaseView showcaseView;
@@ -234,7 +235,17 @@ public class HomeActivity extends AppCompatActivity {
                     public void onClick(View v) {
                         int resID = getResources().getIdentifier("_click", "raw", v.getContext().getPackageName());
                         SoundPlayer.getInstance().playMedia(v.getContext(), resID);
-                        gotoLearn(topic);
+                        View gameMode = v.getRootView().findViewById(R.id.learn_mode);
+                        View learnLayout = v.getRootView().findViewById(R.id.popup_play_layout);
+                        if (learnTypeOpen) {
+                            gameMode.setVisibility(View.GONE);
+                            learnLayout.setVisibility(View.VISIBLE);
+                            learnTypeOpen = false;
+                            return;
+                        }
+                        gameMode.setVisibility(View.VISIBLE);
+                        learnLayout.setVisibility(View.GONE);
+                        learnTypeOpen = true;
                     }
                 }, R.id.btnLearn)
                 .bindClickListener(new View.OnClickListener() {
@@ -242,13 +253,33 @@ public class HomeActivity extends AppCompatActivity {
                     public void onClick(View v) {
                         int resID = getResources().getIdentifier("_click", "raw", v.getContext().getPackageName());
                         SoundPlayer.getInstance().playMedia(v.getContext(), resID);
+                        gotoLearn(topic);
+                    }
+                }, R.id.flash_card)
+                .bindClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        int resID = getResources().getIdentifier("_click", "raw", v.getContext().getPackageName());
+                        SoundPlayer.getInstance().playMedia(v.getContext(), resID);
+                        gotoVideo(topic);
+                    }
+                }, R.id.video)
+                .bindClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        int resID = getResources().getIdentifier("_click", "raw", v.getContext().getPackageName());
+                        SoundPlayer.getInstance().playMedia(v.getContext(), resID);
                         View gameMode = v.getRootView().findViewById(R.id.game_mode);
+                        View hard = v.getRootView().findViewById(R.id.cross);
                         View learnLayout = v.getRootView().findViewById(R.id.popup_learn_layout);
                         if (gameLevelOpen) {
                             gameMode.setVisibility(View.GONE);
                             learnLayout.setVisibility(View.VISIBLE);
                             gameLevelOpen = false;
                             return;
+                        }
+                        if(topic.equals("simple sentence")){
+                            hard.setVisibility(View.GONE);
                         }
                         gameMode.setVisibility(View.VISIBLE);
                         learnLayout.setVisibility(View.GONE);
@@ -293,6 +324,13 @@ public class HomeActivity extends AppCompatActivity {
                 intent.putExtra(TOPIC, topic);
                 startActivity(intent);
                 popup.dismiss();
+    }
+
+    public void gotoVideo(String topic) {
+        Intent intent = new Intent(HomeActivity.this, VideoActivity.class);
+        intent.putExtra(TOPIC, topic);
+        startActivity(intent);
+        popup.dismiss();
     }
 
     public void gotoYesNoGame(String topic){

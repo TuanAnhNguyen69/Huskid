@@ -19,6 +19,7 @@ import android.widget.TextView;
 import com.foodtiny.razor.elkid.GlideApp;
 import com.foodtiny.razor.elkid.R;
 import com.foodtiny.razor.elkid.entity.EnglishWord;
+import com.foodtiny.razor.elkid.entity.Topic;
 import com.foodtiny.razor.elkid.helper.DatabaseHelper;
 import com.foodtiny.razor.elkid.helper.SoundPlayer;
 import com.foodtiny.razor.elkid.helper.Storage;
@@ -89,7 +90,7 @@ public class GameYesNoActivity extends AppCompatActivity {
     EnglishWord wrongWord;
     List<EnglishWord> prilist;
     List<EnglishWord> uselist;
-    String topic;
+    static String topic;
     static int questionCount = -1;
     int question = questionCount +1;
     int scores = 0;
@@ -230,8 +231,33 @@ public class GameYesNoActivity extends AppCompatActivity {
             }
         });
 
+
         buildFirstShowCase(image, "This is the image for choosing", "");
     }
+    /*
+    private void showQuestion(){
+        switch (topic){
+            case "actions" :
+                describe.setText("Do they " + wrongWord.getWord()+"?");
+                break;
+            case "animals" :
+                describe.setText("Is this a " + wrongWord.getWord()+"?");
+                break;
+            case "body" :
+                describe.setText("Is this a " + wrongWord.getWord()+"?");
+                break;
+            case "color":
+                describe.setText("Is this " + wrongWord.getWord()+"?");
+                break;
+            case "things":
+                describe.setText("Is this a " + wrongWord.getWord()+"?");
+                break;
+            case "computer":
+                describe.setText("Is this a " + wrongWord.getWord()+"?");
+                break;
+        }
+    }
+    */
 
     private void buildFirstShowCase(View view, String contentTitle, String contentText) {
         Target target = new ViewTarget(view);
@@ -315,7 +341,8 @@ public class GameYesNoActivity extends AppCompatActivity {
             case 3:
                 showcaseView.setShowcase(new ViewTarget(no), true);
                 SoundPlayer.getInstance().pauseBackgroundMedia();
-                int wordResID = getResources().getIdentifier("_" + rightWord.getWord().replaceAll(" ", "").toLowerCase(), "raw", getPackageName());
+                int wordResID = getResources().getIdentifier("_" + rightWord.getId(), "raw", getPackageName());
+                //int wordResID = getResources().getIdentifier("_" + rightWord.getWord().replaceAll(" ", "").toLowerCase(), "raw", getPackageName());
                 SoundPlayer.getInstance().playMedia(this, wordResID);
                 no.setBackgroundColor(Color.GREEN);
                 handler.postDelayed(new Runnable() {
@@ -401,7 +428,10 @@ public class GameYesNoActivity extends AppCompatActivity {
         wrongWord = prilist.get(rd_word);
 
         if(rd != 0){
-            describe.setText("This is " + wrongWord.getWord());
+            if(topic.equals((String)"simple sentence")){
+                describe.setText(" " + wrongWord.getWord());
+            }else
+                describe.setText(wrongWord.getImage() +" " + wrongWord.getWord()+"?");
 
             yes.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -418,7 +448,10 @@ public class GameYesNoActivity extends AppCompatActivity {
             });
         }
         else{
-            describe.setText("This is " + rightWord.getWord());
+            if(topic.equals((String) "simple sentence")){
+                describe.setText(" " + wrongWord.getWord());
+            }else
+                describe.setText(rightWord.getImage() +" " + rightWord.getWord()+"?");
 
             yes.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -435,7 +468,8 @@ public class GameYesNoActivity extends AppCompatActivity {
             });
 
         }
-        int wordResID = getResources().getIdentifier("_" + uselist.get(questionCount).getWord().replaceAll(" ", "").toLowerCase() + "_pic", "raw", getPackageName());
+        int wordResID = getResources().getIdentifier("_" + rightWord.getId() + "_pic", "raw", getPackageName());
+        //int wordResID = getResources().getIdentifier("_" + uselist.get(questionCount).getWord().replaceAll(" ", "").toLowerCase() + "_pic", "raw", getPackageName());
         GlideApp.with(getApplicationContext()).load(wordResID).into(image);
         scoresText.setText(""+scores);
         exeText.setText(""+ question);
@@ -462,7 +496,8 @@ public class GameYesNoActivity extends AppCompatActivity {
 
     private void showCorrect(final View view) {
         SoundPlayer.getInstance().pauseBackgroundMedia();
-        int wordResID = getResources().getIdentifier("_" + rightWord.getWord().replaceAll(" ", "").toLowerCase(), "raw", getPackageName());
+        int wordResID = getResources().getIdentifier("_" + rightWord.getId(), "raw", getPackageName());
+        //int wordResID = getResources().getIdentifier("_" + rightWord.getWord().replaceAll(" ", "").toLowerCase(), "raw", getPackageName());
         SoundPlayer.getInstance().playMedia(this, wordResID);
         final FancyButton button = (FancyButton) view;
         button.setBackgroundColor(Color.GREEN);
@@ -483,6 +518,8 @@ public class GameYesNoActivity extends AppCompatActivity {
         }, 3000);
         return;
     }
+
+
 
 
     @SuppressLint("SetTextI18n")

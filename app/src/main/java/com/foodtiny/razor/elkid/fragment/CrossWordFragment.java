@@ -313,7 +313,8 @@ public class CrossWordFragment extends Fragment {
 
     private void showCorrect() {
         wordInput.setBackgroundColor(Color.GREEN);
-        int resID = getResources().getIdentifier("_" + currentSelectWord.getWord().replaceAll(" ", "").toLowerCase(), "raw", getContext().getPackageName());
+        int resID = getResources().getIdentifier("_" + currentSelectWord.getId(), "raw", getContext().getPackageName());
+        //int resID = getResources().getIdentifier("_" + currentSelectWord.getWord().replaceAll(" ", "").toLowerCase(), "raw", getContext().getPackageName());
         SoundPlayer.getInstance().playMedia(getContext(), resID);
         horizontal.add(currentSelectWord);
         wordTableAdapter.notifyDataSetChanged();
