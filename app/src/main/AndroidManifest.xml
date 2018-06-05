@@ -25,11 +25,12 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".activity.HomeActivity"></activity>
+        <activity android:name=".activity.HomeActivity" />
         <activity android:name=".activity.LearnActivity" />
         <activity android:name=".activity.GameYesNoActivity" />
         <activity android:name=".activity.GameChoice" />
-        <activity android:name=".activity.VideoActivity"></activity>
+        <activity android:name=".activity.VideoActivity" />
+        <activity android:name=".activity.DragDropActivity"></activity>
     </application>
 
 </manifest>

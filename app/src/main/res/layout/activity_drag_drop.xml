@@ -1,0 +1,148 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:id="@+id/layout"
+    android:orientation="vertical"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <LinearLayout
+        android:layout_weight="2"
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="0dp">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:text="Drag and Drop"
+            android:textSize="30sp"
+            android:textStyle="bold" />
+
+        <LinearLayout
+            android:layout_weight="1"
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:gravity="right">
+
+            <TextView
+                android:id="@+id/dd_scores"
+                android:text="x"
+                android:textSize="30sp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+            <TextView
+                android:text="/"
+                android:textSize="30sp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="5dp"
+                android:layout_marginRight="5dp"/>
+
+            <TextView
+                android:id="@+id/dd_exe"
+                android:gravity="right"
+                android:text="x"
+                android:textSize="30sp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+        </LinearLayout>
+
+
+
+    </LinearLayout>
+
+    <!--<LinearLayout-->
+    <!--android:id="@+id/layout_alphabet"-->
+    <!--android:orientation="vertical"-->
+    <!--android:gravity="center"-->
+    <!--android:layout_weight="4"-->
+    <!--android:layout_width="match_parent"-->
+    <!--android:background="@color/colorAccent"-->
+    <!--android:layout_height="0dp"></LinearLayout>-->
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:gravity="center"
+        android:id="@+id/layout_drag_drop"
+        android:layout_weight="8"
+        android:layout_width="match_parent"
+        android:background="@color/colorPrimaryDark"
+        android:layout_height="0dp">
+
+        <LinearLayout
+            android:id="@+id/dd_alphabet_1"
+            android:gravity="center"
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:background="#04990e"
+            android:layout_weight="2"
+            android:layout_height="0dp"></LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/dd_alphabet_2"
+            android:gravity="center"
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:background="#04990e"
+            android:layout_weight="2"
+            android:layout_height="0dp"></LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:background="#fa179c"
+            android:layout_weight="1"
+            android:layout_height="0dp"></LinearLayout>
+
+
+        <LinearLayout
+            android:id="@+id/dd_input_1"
+            android:gravity="center"
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:background="#fa179c"
+            android:layout_weight="2"
+            android:layout_height="0dp"></LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/dd_input_2"
+            android:gravity="center"
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:background="#fa179c"
+            android:layout_weight="2"
+            android:layout_height="0dp"></LinearLayout>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:gravity="center"
+        android:layout_weight="3"
+        android:layout_width="match_parent"
+        android:layout_height="0dp">
+
+        <Button
+            android:id="@+id/dd_reset"
+            android:text="Reset"
+            android:layout_width="150dp"
+            android:layout_height="50dp" />
+
+        <Button
+            android:id="@+id/dd_check"
+            android:text="Check"
+            android:layout_width="150dp"
+            android:layout_height="50dp" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"></LinearLayout>
+
+
+</LinearLayout>

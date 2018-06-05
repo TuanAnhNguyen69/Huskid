@@ -310,6 +310,14 @@ public class HomeActivity extends AppCompatActivity {
                         gotoCrossWordGame(topic, 10);
                     }
                 }, R.id.cross)
+                .bindClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        int resID = getResources().getIdentifier("_click", "raw", v.getContext().getPackageName());
+                        SoundPlayer.getInstance().playMedia(v.getContext(), resID);
+                        gotoDragDrop(topic);
+                    }
+                }, R.id.drag)
                 .setGravity(Gravity.CENTER)
                 .setScaleRatio(0.2f)
                 .setBlurRadius(10)
@@ -351,6 +359,13 @@ public class HomeActivity extends AppCompatActivity {
         Intent intent = new Intent(HomeActivity.this, CrossWordGameActivity.class);
         intent.putExtra(TOPIC, topic);
         intent.putExtra(LEVEL, level);
+        startActivity(intent);
+        popup.dismiss();
+    }
+
+    public void gotoDragDrop(String topic){
+        Intent intent = new Intent(HomeActivity.this, DragDropActivity.class);
+        intent.putExtra(TOPIC, topic);
         startActivity(intent);
         popup.dismiss();
     }

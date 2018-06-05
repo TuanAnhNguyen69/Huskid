@@ -76,10 +76,24 @@
                 android:layout_weight="1"
                 fancy:fb_borderColor="#FFFFFF"
                 fancy:fb_borderWidth="5dp"
-                fancy:fb_defaultColor="@color/colorFoodTiny"
+                fancy:fb_defaultColor="#e6cc08"
                 fancy:fb_focusColor="#9bd823"
                 fancy:fb_radius="30dp"
                 fancy:fb_text="Hard"
+                fancy:fb_textColor="#FFFFFF" />
+
+            <mehdi.sakout.fancybuttons.FancyButton
+                android:id="@+id/drag"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="8dp"
+                android:layout_weight="1"
+                fancy:fb_borderColor="#FFFFFF"
+                fancy:fb_borderWidth="5dp"
+                fancy:fb_defaultColor="#fa0808"
+                fancy:fb_focusColor="#9bd823"
+                fancy:fb_radius="30dp"
+                fancy:fb_text="Very Hard"
                 fancy:fb_textColor="#FFFFFF" />
         </LinearLayout>
 
