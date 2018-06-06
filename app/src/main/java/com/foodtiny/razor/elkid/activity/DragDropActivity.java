@@ -495,6 +495,7 @@ public class DragDropActivity extends AppCompatActivity {
         public boolean onDrag(View view, DragEvent dragEvent) {
             View newView = (View) dragEvent.getLocalState();
             LinearLayout owner = (LinearLayout) newView.getParent();
+            TextView container = (TextView) view;
             switch (dragEvent.getAction()){
                 case DragEvent.ACTION_DRAG_STARTED:
                     break;
@@ -505,9 +506,16 @@ public class DragDropActivity extends AppCompatActivity {
                     view.setBackground(drag_out);
                     break;
                 case DragEvent.ACTION_DROP:
-                    ((View) dragEvent.getLocalState()).setVisibility(View.INVISIBLE);
-                    String str = dragEvent.getClipData().getItemAt(0).getText().toString();
-                    ((TextView) view).setText(str + "");
+                    if(container.getText()==""){
+                        newView.setVisibility(View.INVISIBLE);
+                        String str = dragEvent.getClipData().getItemAt(0).getText().toString();
+                        ((TextView) view).setText(str + "");
+                    }else{
+                        owner.removeView(newView);
+                        owner.addView(newView);
+                        newView.setVisibility(View.VISIBLE);
+                    }
+
                     break;
                 case DragEvent.ACTION_DRAG_ENDED:
                     view.setBackground(drag_out);
