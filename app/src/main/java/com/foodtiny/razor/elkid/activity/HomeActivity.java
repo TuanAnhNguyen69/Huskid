@@ -9,6 +9,7 @@ import android.os.Bundle;
 import android.view.Gravity;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.ListView;
 
@@ -31,8 +32,11 @@ public class HomeActivity extends AppCompatActivity {
     public static final String LEVEL = "level";
     public static final String BG_SOUND = "bgsound";
 
-    @BindView(R.id.topicList)
-    ListView topicListView;
+//    @BindView(R.id.topicList)
+//    ListView topicListView;
+
+    @BindView(R.id.topicGrid)
+    GridView topicGridView;
 
     @BindView(R.id.setting)
     ImageView setting;
@@ -58,7 +62,7 @@ public class HomeActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_home);
+        setContentView(R.layout.activity_home_grid);
         ButterKnife.bind(this);
         storage = new Storage(this);
         initTopicList();
@@ -111,11 +115,13 @@ public class HomeActivity extends AppCompatActivity {
             public void onClick(View v) {
                 int resID = getResources().getIdentifier("_click", "raw", getPackageName());
                 SoundPlayer.getInstance().playMedia(HomeActivity.this, resID);
-                buildShowCase(topicListView, "Touch here to open topic menu", "");
+                //buildShowCase(topicListView, "Touch here to open topic menu", "");
+                buildShowCase(topicGridView, "Touch here to open topic menu", "");
             }
         });
 
-        buildFirstShowCase(topicListView, "Touch here to open topic menu", "");
+        //buildFirstShowCase(topicListView, "Touch here to open topic menu", "");
+        buildFirstShowCase(topicGridView, "Touch here to open topic menu", "");
     }
 
     private void buildFirstShowCase(View view, String contentTitle, String contentText) {
@@ -215,8 +221,16 @@ public class HomeActivity extends AppCompatActivity {
 
     private void initTopicList() {
         topicsAdapter = new TopicsAdapter(this, DatabaseHelper.getInstance().getAllTopics());
-        topicListView.setAdapter(topicsAdapter);
-        topicListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+//        topicListView.setAdapter(topicsAdapter);
+//        topicListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+//            @RequiresApi(api = Build.VERSION_CODES.N)
+//            @Override
+//            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+//                onButtonClick(topicsAdapter.getItem(position).getName());
+//            }
+//        });
+        topicGridView.setAdapter(topicsAdapter);
+        topicGridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @RequiresApi(api = Build.VERSION_CODES.N)
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -271,6 +285,7 @@ public class HomeActivity extends AppCompatActivity {
                         SoundPlayer.getInstance().playMedia(v.getContext(), resID);
                         View gameMode = v.getRootView().findViewById(R.id.game_mode);
                         View hard = v.getRootView().findViewById(R.id.cross);
+                        View very_hard = v.getRootView().findViewById(R.id.drag);
                         View learnLayout = v.getRootView().findViewById(R.id.popup_learn_layout);
                         if (gameLevelOpen) {
                             gameMode.setVisibility(View.GONE);
@@ -280,6 +295,7 @@ public class HomeActivity extends AppCompatActivity {
                         }
                         if(topic.equals("simple sentence")){
                             hard.setVisibility(View.GONE);
+                            very_hard.setVisibility(View.GONE);
                         }
                         gameMode.setVisibility(View.VISIBLE);
                         learnLayout.setVisibility(View.GONE);

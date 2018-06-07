@@ -6,6 +6,7 @@ import android.graphics.Color;
 import android.graphics.Typeface;
 import android.graphics.drawable.Drawable;
 import android.os.Handler;
+import android.support.constraint.ConstraintLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -14,6 +15,7 @@ import android.view.Gravity;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -22,6 +24,7 @@ import com.foodtiny.razor.elkid.entity.EnglishWord;
 import com.foodtiny.razor.elkid.helper.DatabaseHelper;
 import com.foodtiny.razor.elkid.helper.SoundPlayer;
 import com.foodtiny.razor.elkid.helper.Storage;
+import com.github.amlcurran.showcaseview.ShowcaseView;
 import com.kyleduo.blurpopupwindow.library.BlurPopupWindow;
 
 import java.util.ArrayList;
@@ -39,10 +42,10 @@ import static com.foodtiny.razor.elkid.activity.HomeActivity.TOPIC;
 public class DragDropActivity extends AppCompatActivity {
 
     @BindView(R.id.dd_reset)
-    Button bt_reset;
+    FancyButton bt_reset;
 
     @BindView(R.id.dd_check)
-    Button bt_check;
+    FancyButton bt_check;
 
     @BindView(R.id.layout_drag_drop)
     LinearLayout main_layout;
@@ -64,6 +67,18 @@ public class DragDropActivity extends AppCompatActivity {
 
     @BindView(R.id.dd_input_2)
     LinearLayout subLayout_Input_2;
+
+    @BindView(R.id.setting)
+    ImageView setting;
+
+    @BindView(R.id.mute)
+    ImageView mute;
+
+    @BindView(R.id.about)
+    ImageView about;
+
+    @BindView(R.id.setting_layout)
+    ConstraintLayout settingLayout;
 
     String topic;
     List<EnglishWord> prilist;
@@ -98,14 +113,17 @@ public class DragDropActivity extends AppCompatActivity {
 
     EnglishWord word;
 
+    boolean settingOpen;
 
+    private ShowcaseView showcaseView;
+    private int showCaseCount;
 
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_drag_drop);
+        setContentView(R.layout.activity_drag_drop_2);
 
         ButterKnife.bind(this);
 
@@ -129,6 +147,50 @@ public class DragDropActivity extends AppCompatActivity {
             Log.d("aaa", ""+prilist.get(rd).getWord());
             prilist.remove(rd);
         }
+
+        showCaseCount = 0;
+        mute.setVisibility(View.INVISIBLE);
+        about.setVisibility(View.INVISIBLE);
+        settingOpen = false;
+        storage = new Storage(this);
+        settingLayout.setBackgroundResource(R.drawable.setting_back);
+
+        setting.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                int resID = getResources().getIdentifier("_click", "raw", getPackageName());
+                SoundPlayer.getInstance().playMedia(DragDropActivity.this, resID);
+                if (settingOpen) {
+                    settingLayout.setBackgroundResource(R.drawable.setting_back);
+                    mute.setVisibility(View.INVISIBLE);
+                    about.setVisibility(View.INVISIBLE);
+                    settingOpen = false;
+                    return;
+                }
+                settingLayout.setBackgroundResource(R.drawable.setting_back_full);
+                mute.setVisibility(View.VISIBLE);
+                about.setVisibility(View.VISIBLE);
+                settingOpen =true;
+            }
+        });
+
+        mute.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                int resID = getResources().getIdentifier("_click", "raw", getPackageName());
+                SoundPlayer.getInstance().playMedia(DragDropActivity.this, resID);
+                if (storage.get(BG_SOUND).equals("ON")) {
+                    mute.setImageResource(R.drawable.music_off);
+                    SoundPlayer.getInstance().pauseBackgroundMedia();
+                    storage.set(BG_SOUND, "OFF");
+                    return;
+                }
+
+                mute.setImageResource(R.drawable.music_on);
+                SoundPlayer.getInstance().playBackgroundMedia();
+                storage.set(BG_SOUND, "ON");
+            }
+        });
 
 
 
@@ -246,7 +308,7 @@ public class DragDropActivity extends AppCompatActivity {
         LinearLayout.LayoutParams marginInputBox = new LinearLayout.LayoutParams(
                 LinearLayout.LayoutParams.WRAP_CONTENT,
                 LinearLayout.LayoutParams.WRAP_CONTENT);
-        marginInputBox.setMargins(5, 10, 5, 10);
+        marginInputBox.setMargins(3, 10, 3, 10);
 
         Drawable dr1 = getBaseContext().getResources().getDrawable(R.drawable.drag_item);
         Drawable drag_in = getBaseContext().getResources().getDrawable(R.drawable.drag_in);
@@ -256,17 +318,31 @@ public class DragDropActivity extends AppCompatActivity {
         String string = word.getWord();
         Log.d("bbb", string);
 
+        subInput2 ="";
+
         for(int i=0; i<string.length(); i++){
             if(Character.toString(string.charAt(i)).matches( " ")){
                 subInput2 = string.substring(i+1);
                 subInput1 = string.substring(0, i);
+                break;
             }
             else {
                 subInput1 = string;
             }
         }
 
-        String mixAlphabet = MixString(string.trim());
+        Log.d("sub1", subInput1+"");
+        Log.d("sub2", subInput2+"");
+
+        String mixAlphabet;
+        if(subInput2 != null){
+            mixAlphabet = subInput1.concat(subInput2);
+        }else{
+            mixAlphabet = subInput1;
+        }
+
+        mixAlphabet = MixString(mixAlphabet);
+
         //Rendering alphabet boxs
         for(int i=0; i<=mixAlphabet.length()/2; i++){
             TextView textView = new TextView(this);
@@ -358,7 +434,7 @@ public class DragDropActivity extends AppCompatActivity {
 
 //                Log.d("Lỗi", subInput1+"");
 //                Log.d("Lỗi", subInput2+"");
-                if(subInput2 != null){
+                if(subInput2 != ""){
                     if(Check(subInput1, tx_input_1) == true && Check(subInput2, tx_input_1) == true){
                         Log.d("Kết quả", "Đúng rồi");
                         showCorrect();
