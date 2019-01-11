@@ -30,6 +30,12 @@ public class SoundPlayer{
         if (!localMediaPlayer.isPlaying()) {
             localMediaPlayer.start();
         }
+
+        mediaPlayer.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
+            public void onCompletion(MediaPlayer mp) {
+                mp.release();
+            }
+        });
     }
 
     public void stopMedia() {
